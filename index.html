@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linarc Team</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #0a0a0a;
+    --fg2: #444;
+    --border: #e0e0e0;
+    --card-bg: #f7f7f7;
+    --nav-h: 64px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .nav-logo span { color: #555; font-weight: 300; }
+
+  .nav-links {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--fg);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: background .18s, color .18s;
+  }
+  .nav-links a:hover { background: var(--fg); color: #fff; }
+
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+
+  .lang-toggle {
+    display: flex;
+    border: 1.5px solid var(--fg);
+    border-radius: 8px;
+    overflow: hidden;
+    user-select: none;
+  }
+  .lang-btn {
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background .18s, color .18s;
+    color: var(--fg);
+  }
+  .lang-btn.active { background: var(--fg); color: #fff; }
+
+  .discord-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--fg);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity .18s, transform .15s;
+  }
+  .discord-btn:hover { opacity: .82; transform: translateY(-1px); }
+  .discord-btn svg { width: 18px; height: 18px; fill: #fff; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: calc(var(--nav-h) + 40px) 24px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 60%, #f0f0f0 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 20px;
+    animation: fadeUp .7s .1s both;
+  }
+
+  .hero-title {
+    font-size: clamp(52px, 9vw, 120px);
+    font-weight: 900;
+    line-height: .95;
+    letter-spacing: -3px;
+    color: var(--fg);
+    margin-bottom: 24px;
+    animation: fadeUp .7s .2s both;
+  }
+  .hero-title em { font-style: normal; color: #aaa; }
+
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--fg2);
+    font-weight: 300;
+    max-width: 560px;
+    line-height: 1.55;
+    margin-bottom: 40px;
+    animation: fadeUp .7s .3s both;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp .7s .4s both;
+  }
+
+  .btn-primary {
+    background: var(--fg);
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    padding: 14px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity .18s, transform .15s;
+  }
+  .btn-primary:hover { opacity: .82; transform: translateY(-2px); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--fg);
+    border: 1.5px solid var(--fg);
+    border-radius: 9px;
+    padding: 14px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .18s, color .18s, transform .15s;
+  }
+  .btn-outline:hover { background: var(--fg); color: #fff; transform: translateY(-2px); }
+
+  /* SECTION */
+  section { padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 48px;
+    line-height: 1.1;
+  }
+
+  /* NEWS */
+  .news-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: 20px;
+  }
+
+  .news-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+  }
+  .news-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,.1); }
+  .news-card.featured { grid-row: span 2; }
+
+  .news-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #e8e8e8, #d0d0d0);
+    position: relative;
+    overflow: hidden;
+  }
+  .news-card.featured .news-img { aspect-ratio: 4/3; }
+
+  .news-img-inner {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px; opacity: .18;
+  }
+
+  .news-body { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .news-tag { font-size: 11px; font-family: 'DM Mono', monospace; letter-spacing: 2px; text-transform: uppercase; color: #888; }
+  .news-headline { font-size: 16px; font-weight: 700; line-height: 1.3; color: var(--fg); }
+  .news-card.featured .news-headline { font-size: 22px; }
+  .news-date { font-size: 12px; color: #aaa; margin-top: auto; font-family: 'DM Mono', monospace; }
+
+  /* PRODUCTS */
+  .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+  .product-card {
+    background: var(--fg);
+    color: #fff;
+    border-radius: 16px;
+    padding: 36px 32px;
+    cursor: pointer;
+    transition: transform .2s, opacity .2s;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+  .product-card::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; right: -40px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.06);
+  }
+  .product-card:hover { transform: translateY(-4px); opacity: .9; }
+  .product-icon { font-size: 28px; margin-bottom: 4px; }
+  .product-name { font-size: 20px; font-weight: 800; letter-spacing: -.5px; }
+  .product-desc { font-size: 14px; color: rgba(255,255,255,.6); font-weight: 300; line-height: 1.5; }
+  .product-arrow { margin-top: auto; font-size: 20px; opacity: .4; }
+
+  /* ABOUT */
+  .about-section {
+    padding: 100px 0;
+    background: var(--fg);
+    color: #fff;
+  }
+  .about-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.4);
+    margin-bottom: 12px;
+  }
+
+  .about-title {
+    font-size: clamp(32px, 4vw, 54px);
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    margin-bottom: 32px;
+    color: #fff;
+  }
+  .about-title em { font-style: normal; color: rgba(255,255,255,.3); }
+
+  .about-text {
+    font-size: 16px;
+    color: rgba(255,255,255,.7);
+    line-height: 1.8;
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+  .about-text strong { color: #fff; font-weight: 700; }
+
+  .bando-link {
+    font-style: italic;
+    text-decoration: overline;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity .18s;
+  }
+  .bando-link:hover { opacity: .6; }
+
+  .about-badges { display: flex; flex-direction: column; gap: 16px; }
+
+  .about-badge {
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 14px;
+    padding: 24px 28px;
+    background: rgba(255,255,255,.04);
+    transition: background .2s;
+  }
+  .about-badge:hover { background: rgba(255,255,255,.08); }
+  .about-badge-icon { font-size: 22px; margin-bottom: 8px; }
+  .about-badge-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .about-badge-desc { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.5; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 48px;
+    border-top: 1px solid var(--border);
+    color: #aaa;
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section { padding: 60px 20px; }
+    .news-grid { grid-template-columns: 1fr; }
+    .news-card.featured { grid-row: span 1; }
+    .products-grid { grid-template-columns: 1fr; }
+    .about-inner { grid-template-columns: 1fr; gap: 40px; padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Linarc<span> Team</span></a>
+
+  <ul class="nav-links">
+    <li><a href="#news" data-pt="Últimas Notícias" data-en="Latest News">Últimas Notícias</a></li>
+    <li><a href="https://societad.shop/linarc" target="_blank" data-pt="Produtos" data-en="Products">Produtos</a></li>
+    <li><a href="#about" data-pt="About Us" data-en="About Us">About Us</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+    <a class="discord-btn" href="https://discord.gg/uQujud3BDF" target="_blank">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 0 0-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 0 0-5.487 0 12.36 12.36 0 0 0-.617-1.23A.077.077 0 0 0 8.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 0 0-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 0 0 .031.055 20.03 20.03 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028zM8.02 15.278c-1.182 0-2.157-1.069-2.157-2.38 0-1.312.956-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.956 2.38-2.157 2.38zm7.975 0c-1.183 0-2.157-1.069-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.946 2.38-2.157 2.38z"/>
+      </svg>
+      Discord
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow" data-pt="Bem-vindo à Linarc Team" data-en="Welcome to Linarc Team">Bem-vindo à Linarc Team</p>
+  <h1 class="hero-title" data-pt="Siga o<br><em>Bando.</em>" data-en="Follow the<br><em>Pack.</em>">Siga o<br><em>Bando.</em></h1>
+  <p class="hero-sub" data-pt='Somos o futuro. Não Siga "eles".' data-en='We are the future. Don&apos;t follow "them".'>Somos o futuro. Não Siga "eles".</p>
+  <div class="hero-ctas">
+    <a class="btn-primary" href="#about" data-pt="Nos Conheça" data-en="Meet Us">Nos Conheça</a>
+    <a class="btn-outline" href="#news" data-pt="Ver Notícias" data-en="See News">Ver Notícias</a>
+  </div>
+</div>
+
+<!-- NEWS -->
+<section id="news">
+  <p class="section-label" data-pt="ÚLTIMAS NOTÍCIAS" data-en="LATEST NEWS">ÚLTIMAS NOTÍCIAS</p>
+  <h2 class="section-title" data-pt="O que está<br>acontecendo" data-en="What's<br>happening">O que está<br>acontecendo</h2>
+
+  <div class="news-grid">
+    <a class="news-card featured" href="#lastnews">
+      <div class="news-img"><div class="news-img-inner">◈</div></div>
+      <div class="news-body">
+        <span class="news-tag" data-pt="DESTAQUE" data-en="FEATURED">DESTAQUE</span>
+        <p class="news-headline" data-pt="Linarc Team anuncia novidades para a comunidade em 2025" data-en="Linarc Team announces new features for the community in 2025">Linarc Team anuncia novidades para a comunidade em 2025</p>
+        <span class="news-date">08 ABR 2025</span>
+      </div>
+    </a>
+
+    <a class="news-card" href="#lastnews">
+      <div class="news-img"><div class="news-img-inner">▣</div></div>
+      <div class="news-body">
+        <span class="news-tag" data-pt="ATUALIZAÇÃO" data-en="UPDATE">ATUALIZAÇÃO</span>
+        <p class="news-headline" data-pt="Nova linha de produtos disponível na loja oficial" data-en="New product line available in the official store">Nova linha de produtos disponível na loja oficial</p>
+        <span class="news-date">05 ABR 2025</span>
+      </div>
+    </a>
+
+    <a class="news-card" href="#lastnews">
+      <div class="news-img"><div class="news-img-inner">◇</div></div>
+      <div class="news-body">
+        <span class="news-tag" data-pt="COMUNIDADE" data-en="COMMUNITY">COMUNIDADE</span>
+        <p class="news-headline" data-pt="Servidor do Discord atinge nova marca de membros" data-en="Discord server reaches new membership milestone">Servidor do Discord atinge nova marca de membros</p>
+        <span class="news-date">01 ABR 2025</span>
+      </div>
+    </a>
+
+    <a class="news-card" href="#lastnews">
+      <div class="news-img"><div class="news-img-inner">◈</div></div>
+      <div class="news-body">
+        <span class="news-tag" data-pt="EVENTO" data-en="EVENT">EVENTO</span>
+        <p class="news-headline" data-pt="Evento exclusivo para membros — fique de olho!" data-en="Exclusive event for members — stay tuned!">Evento exclusivo para membros — fique de olho!</p>
+        <span class="news-date">28 MAR 2025</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<div style="background:#fff; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <section id="products">
+    <p class="section-label" data-pt="PRODUTOS" data-en="PRODUCTS">PRODUTOS</p>
+    <h2 class="section-title" data-pt="Nossa loja<br>oficial" data-en="Our official<br>store">Nossa loja<br>oficial</h2>
+
+    <div class="products-grid">
+      <a class="product-card" href="https://societad.shop/linarc" target="_blank">
+        <div class="product-icon">👕</div>
+        <p class="product-name" data-pt="Coleção Linarc" data-en="Linarc Collection">Coleção Linarc</p>
+        <p class="product-desc" data-pt="Roupas e acessórios exclusivos da team." data-en="Exclusive clothing and accessories from the team.">Roupas e acessórios exclusivos da team.</p>
+        <p class="product-arrow">→</p>
+      </a>
+
+      <a class="product-card" href="https://societad.shop/linarc" target="_blank" style="background:#1a1a1a;">
+        <div class="product-icon">📦</div>
+        <p class="product-name" data-pt="Ver Tudo" data-en="See All">Ver Tudo</p>
+        <p class="product-desc" data-pt="Explore todo o catálogo na nossa loja oficial." data-en="Browse the full catalog in our official store.">Explore todo o catálogo na nossa loja oficial.</p>
+        <p class="product-arrow">→</p>
+      </a>
+    </div>
+  </section>
+</div>
+
+<!-- ABOUT -->
+<div class="about-section" id="about">
+  <div class="about-inner">
+    <div>
+      <p class="about-label" data-pt="SOBRE NÓS" data-en="ABOUT US">SOBRE NÓS</p>
+      <h2 class="about-title" data-pt="Somos a<br><em>elite</em><br>da Societad." data-en="We are<br><em>the elite</em><br>of Societad.">Somos a<br><em>elite</em><br>da Societad.</h2>
+
+      <p class="about-text" data-pt="A <strong>Linarc Team</strong> é um time de <strong>cibersegurança</strong> em busca de um mundo digital mais seguro e justo. Não somos apenas um grupo — somos uma força." data-en="<strong>Linarc Team</strong> is a <strong>cybersecurity</strong> team in pursuit of a safer, fairer digital world. We are not just a group — we are a force.">A <strong>Linarc Team</strong> é um time de <strong>cibersegurança</strong> em busca de um mundo digital mais seguro e justo. Não somos apenas um grupo — somos uma força.</p>
+
+      <p class="about-text">
+        <span data-pt="Fazemos parte do <strong>Societad Group</strong> e somos sua <strong>divisão de elite</strong> — operando nas linhas de frente da segurança ofensiva e defensiva. Dentro da Linarc, existe a divisão pentester" data-en="We are part of <strong>Societad Group</strong> and its <strong>elite division</strong> — operating on the front lines of offensive and defensive security. Within Linarc, there is the pentester division">Fazemos parte do <strong>Societad Group</strong> e somos sua <strong>divisão de elite</strong> — operando nas linhas de frente da segurança ofensiva e defensiva. Dentro da Linarc, existe a divisão pentester</span>
+        <a href="bando" class="bando-link"> <em>BANDO</em></a><span data-pt=" — nossa ala mais afiada." data-en=" — our sharpest unit."> — nossa ala mais afiada.</span>
+      </p>
+    </div>
+
+    <div class="about-badges">
+      <div class="about-badge">
+        <div class="about-badge-icon">🛡️</div>
+        <p class="about-badge-title" data-pt="Cibersegurança" data-en="Cybersecurity">Cibersegurança</p>
+        <p class="about-badge-desc" data-pt="Proteção ativa, análise de ameaças e resposta a incidentes." data-en="Active protection, threat analysis and incident response.">Proteção ativa, análise de ameaças e resposta a incidentes.</p>
+      </div>
+      <div class="about-badge">
+        <div class="about-badge-icon">⚔️</div>
+        <p class="about-badge-title">Pentest — <em style="text-decoration:overline;">BANDO</em></p>
+        <p class="about-badge-desc" data-pt="Nossa divisão de testes de invasão. Os melhores do grupo." data-en="Our penetration testing division. The best of the group.">Nossa divisão de testes de invasão. Os melhores do grupo.</p>
+      </div>
+      <div class="about-badge">
+        <div class="about-badge-icon">🌐</div>
+        <p class="about-badge-title">Societad Group</p>
+        <p class="about-badge-desc" data-pt="Parte de um ecossistema maior. Uma rede de times unidos por um propósito." data-en="Part of a larger ecosystem. A network of teams united by purpose.">Parte de um ecossistema maior. Uma rede de times unidos por um propósito.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p data-pt="© 2025 Linarc Team · Societad Group — Todos os direitos reservados." data-en="© 2025 Linarc Team · Societad Group — All rights reserved.">© 2025 Linarc Team · Societad Group — Todos os direitos reservados.</p>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+    document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+      el.innerHTML = el.getAttribute('data-' + lang);
+    });
+    document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.news-card, .product-card, .about-badge').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity .5s, transform .5s, box-shadow .2s';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

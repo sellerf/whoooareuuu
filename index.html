@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANDO — Linarc Team</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #0a0a0a;
+    --fg2: #444;
+    --border: #e0e0e0;
+    --card-bg: #f7f7f7;
+    --nav-h: 64px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--fg);
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* subtle noise grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 200px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: .6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    background: rgba(10,10,10,0.88);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-logo-sep {
+    color: rgba(255,255,255,.2);
+    font-weight: 300;
+    font-size: 18px;
+  }
+
+  .nav-logo-bando {
+    font-style: italic;
+    text-decoration: overline;
+    color: rgba(255,255,255,.7);
+    font-size: 18px;
+  }
+
+  .lang-toggle {
+    display: flex;
+    border: 1.5px solid rgba(255,255,255,.25);
+    border-radius: 8px;
+    overflow: hidden;
+    user-select: none;
+  }
+  .lang-btn {
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background .18s, color .18s;
+    color: rgba(255,255,255,.6);
+  }
+  .lang-btn.active { background: #fff; color: var(--fg); }
+
+  /* BACK BUTTON */
+  .back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1.5px solid rgba(255,255,255,.2);
+    border-radius: 10px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    color: rgba(255,255,255,.8);
+    background: rgba(255,255,255,.05);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .2s, border-color .2s, color .2s, transform .15s;
+    backdrop-filter: blur(6px);
+  }
+  .back-btn:hover {
+    background: rgba(255,255,255,.12);
+    border-color: rgba(255,255,255,.4);
+    color: #fff;
+    transform: translateX(-3px);
+  }
+  .back-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: calc(var(--nav-h) + 60px) 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 55% at 50% 55%, rgba(255,255,255,.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.35);
+    margin-bottom: 24px;
+    animation: fadeUp .7s .1s both;
+  }
+
+  .hero-title {
+    font-size: clamp(80px, 18vw, 200px);
+    font-weight: 900;
+    line-height: .88;
+    letter-spacing: -6px;
+    color: #fff;
+    margin-bottom: 16px;
+    animation: fadeUp .7s .15s both;
+    font-style: italic;
+    text-decoration: overline;
+    text-decoration-color: rgba(255,255,255,.25);
+    text-decoration-thickness: 3px;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(13px, 1.5vw, 16px);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.3);
+    margin-bottom: 52px;
+    animation: fadeUp .7s .25s both;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,.2);
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: fadeUp .7s .5s both;
+  }
+  .scroll-hint-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,.25), transparent);
+    animation: scrollPulse 1.8s ease-in-out infinite;
+  }
+
+  /* ABOUT SECTION */
+  .about {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+
+  .about-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 100px 48px;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.3);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: clamp(30px, 4.5vw, 56px);
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    color: #fff;
+    margin-bottom: 52px;
+  }
+  .section-title em { font-style: normal; color: rgba(255,255,255,.28); }
+
+  /* TEXT BLOCK */
+  .intro-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    margin-bottom: 80px;
+    align-items: start;
+  }
+
+  .intro-text {
+    font-size: 17px;
+    line-height: 1.85;
+    color: rgba(255,255,255,.65);
+    font-weight: 300;
+  }
+  .intro-text strong { color: #fff; font-weight: 700; }
+  .intro-text + .intro-text { color: rgba(255,255,255,.5); font-size: 15px; }
+
+
+
+  /* MANIFESTO */
+  .manifesto {
+    border-top: 1px solid rgba(255,255,255,.07);
+    padding-top: 64px;
+    text-align: center;
+  }
+
+  .manifesto-quote {
+    font-size: clamp(22px, 3.5vw, 40px);
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.2;
+    color: rgba(255,255,255,.9);
+    max-width: 700px;
+    margin: 0 auto 16px;
+  }
+
+  .manifesto-quote em {
+    font-style: italic;
+    color: rgba(255,255,255,.35);
+  }
+
+  .manifesto-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.2);
+    margin-bottom: 48px;
+  }
+
+  /* BACK BOTTOM */
+  .back-bottom {
+    display: flex;
+    justify-content: center;
+    padding: 64px 48px;
+    border-top: 1px solid rgba(255,255,255,.07);
+    position: relative;
+    z-index: 1;
+  }
+
+  .back-bottom-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    color: var(--fg);
+    border: none;
+    border-radius: 14px;
+    padding: 18px 40px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity .18s, transform .18s, box-shadow .18s;
+    box-shadow: 0 8px 32px rgba(255,255,255,.08);
+  }
+  .back-bottom-btn:hover {
+    opacity: .9;
+    transform: translateY(-3px);
+    box-shadow: 0 16px 48px rgba(255,255,255,.12);
+  }
+  .back-bottom-btn svg { width: 18px; height: 18px; stroke: var(--fg); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 32px 48px;
+    border-top: 1px solid rgba(255,255,255,.06);
+    color: rgba(255,255,255,.2);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: .2; transform: scaleY(1); }
+    50%       { opacity: .6; transform: scaleY(1.1); }
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .about-inner { padding: 60px 20px; }
+    .intro-block { grid-template-columns: 1fr; gap: 28px; }
+    .pillars { grid-template-columns: 1fr; }
+    .back-bottom { padding: 48px 20px; }
+    .hero-title { letter-spacing: -3px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="/">
+    Linarc<span style="color:rgba(255,255,255,.3);font-weight:300"> Team</span>
+    <span class="nav-logo-sep">/</span>
+    <span class="nav-logo-bando">BANDO</span>
+  </a>
+
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+    <a class="back-btn" href="/public/index.html">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-pt="Voltar" data-en="Back">Voltar</span>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow" data-pt="Divisão Pentester · Linarc Team" data-en="Pentester Division · Linarc Team">Divisão Pentester · Linarc Team</p>
+  <h1 class="hero-title">BANDO</h1>
+  <p class="hero-subtitle" data-pt="Elite da Linarc Team. Não somos hackers. Somos o teste." data-en="Linarc Team Elite. We are not hackers. We are the test.">Elite da Linarc Team. Não somos hackers. Somos o teste.</p>
+
+  <div class="scroll-hint">
+    <div class="scroll-hint-line"></div>
+    <span data-pt="Conheça" data-en="Discover">Conheça</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="about" id="about">
+  <div class="about-inner">
+    <p class="section-label" data-pt="QUEM SOMOS" data-en="WHO WE ARE">QUEM SOMOS</p>
+    <h2 class="section-title" data-pt="Somos o<br>Futuro.<br><em>Não é Exagero.</em>" data-en="We are<br>the Future.<br><em>Not an Exaggeration.</em>">Somos o<br>Futuro.<br><em>Não é Exagero.</em></h2>
+
+    <div class="intro-block">
+      <p class="intro-text" data-pt="O <strong>BANDO</strong> é a divisão de <strong>pentest</strong> da Linarc Team — a ala mais afiada do grupo. Somos especialistas em segurança ofensiva: encontramos as falhas antes que os inimigos encontrem. Nossa missão é simples — <strong>nenhum sistema é invulnerável, e nós provamos isso.</strong>" data-en="<strong>BANDO</strong> is the <strong>pentest</strong> division of Linarc Team — the sharpest edge of the group. We specialize in offensive security: we find the flaws before the enemies do. Our mission is simple — <strong>no system is invulnerable, and we prove it.</strong>">O <strong>BANDO</strong> é a divisão de <strong>pentest</strong> da Linarc Team — a ala mais afiada do grupo. Somos especialistas em segurança ofensiva: encontramos as falhas antes que os inimigos encontrem. Nossa missão é simples — <strong>nenhum sistema é invulnerável, e nós provamos isso.</strong></p>
+
+      <p class="intro-text" data-pt="Parte do ecossistema <strong>Societad Group</strong>, o BANDO opera com precisão e propósito. Não fazemos barulho desnecessário. Não somos um grupo de elite por acidente, somos por escolha. Nosso foco é se proteger." data-en="Part of the <strong>Societad Group</strong> ecosystem, BANDO operates with precision and purpose. We don't make unnecessary noise. We are not an elite group by accident, we are by choice. Our focus is protection.">Parte do ecossistema <strong>Societad Group</strong>, o BANDO opera com precisão e propósito. Não fazemos barulho desnecessário. Não somos um grupo de elite por acidente, somos por escolha. Nosso foco é se proteger.</p>
+    </div>
+
+
+    <div class="manifesto">
+      <p class="manifesto-quote" data-pt='"Qualquer sistema tem uma falha. <em>Nossa função é encontrá-la primeiro.</em>"' data-en='"Every system has a flaw. <em>Our job is to find it first.</em>"'>"Qualquer sistema tem uma falha. <em>Nossa função é encontrá-la primeiro.</em>"</p>
+      <p class="manifesto-sub" data-pt="— BANDO · Divisão Pentester da Linarc Team" data-en="— BANDO · Pentester Division of Linarc Team">— BANDO · Divisão Pentester da Linarc Team</p>
+    </div>
+  </div>
+</div>
+
+<!-- BACK BUTTON BOTTOM -->
+<div class="back-bottom">
+  <a class="back-bottom-btn" href="/public/index.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    <span data-pt="Voltar ao Menu Principal" data-en="Back to Main Menu">Voltar ao Menu Principal</span>
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p data-pt="© 2025 BANDO · Linarc Team · Societad Group" data-en="© 2025 BANDO · Linarc Team · Societad Group">© 2025 BANDO · Linarc Team · Societad Group</p>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+    document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+      el.innerHTML = el.getAttribute('data-' + lang);
+    });
+    document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  }
+
+  // Intro text fade
+  const obs2 = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.intro-text, .manifesto-quote, .manifesto-sub').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(16px)';
+    el.style.transition = 'opacity .6s, transform .6s';
+    obs2.observe(el);
+  });
+</script>
+</body>
+</html>

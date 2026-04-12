@@ -37,11 +37,11 @@
       const agora = new Date();
 
       // Defina o alvo (12 de abril às 03:33)
-      let alvo = new Date(agora.getFullYear(), 3, 12, 3, 33, 0);
+      let alvo = new Date(agora.getFullYear(), 3, 14, 3, 33, 0);
 
       // Se já passou, joga pro próximo ano
       if (agora > alvo) {
-        alvo = new Date(agora.getFullYear() + 1, 3, 12, 3, 33, 0);
+        alvo = new Date(agora.getFullYear() + 1, 3, 14, 3, 33, 0);
       }
 
       const diff = alvo - agora;

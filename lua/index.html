@@ -71,7 +71,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 80px 24px 80px;
+      padding: 80px 24px;
       text-align: center;
       position: relative;
     }
@@ -133,7 +133,7 @@
       border: none;
     }
     .btn:hover { opacity: 0.8; }
-    .btn-white  { background: #fff; color: #000; }
+    .btn-white   { background: #fff; color: #000; }
     .btn-outline { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.16); }
 
     .scroll-hint {
@@ -150,11 +150,10 @@
       50%      { transform: translateX(-50%) translateY(6px); }
     }
 
-    /* ── DARK CONTENT SECTIONS ── */
+    /* ── CONTENT SECTIONS ── */
     .content-section {
       scroll-snap-align: start;
       background: #111;
-      min-height: auto;
       padding: 96px 24px;
       display: flex;
       flex-direction: column;
@@ -235,23 +234,11 @@
     .sev-critical { background: rgba(220,38,38,0.12); color: #f87171; border: 1px solid rgba(220,38,38,0.25); }
     .sev-low      { background: rgba(202,138,4,0.1);  color: #fbbf24; border: 1px solid rgba(202,138,4,0.25); }
 
-    .bounty-name {
-      font-size: 0.92rem;
-      font-weight: 500;
-    }
-    .bounty-detail {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.32);
-      margin-top: 3px;
-    }
-    .bounty-meta {
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.28);
-      text-align: right;
-      white-space: nowrap;
-    }
+    .bounty-name   { font-size: 0.92rem; font-weight: 500; }
+    .bounty-detail { font-size: 0.75rem; color: rgba(255,255,255,0.32); margin-top: 3px; }
+    .bounty-meta   { font-size: 0.7rem; color: rgba(255,255,255,0.28); text-align: right; white-space: nowrap; }
 
-    /* ── GRID CELLS ── */
+    /* ── CELL GRID ── */
     .cell-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -270,16 +257,8 @@
     }
     .cell:hover { background: #181818; }
 
-    .cell-name {
-      font-size: 1.15rem;
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
-    .cell-desc {
-      font-size: 0.82rem;
-      color: rgba(255,255,255,0.4);
-      line-height: 1.7;
-    }
+    .cell-name { font-size: 1.15rem; font-weight: 500; margin-bottom: 10px; }
+    .cell-desc { font-size: 0.82rem; color: rgba(255,255,255,0.4); line-height: 1.7; }
 
     /* ── CREATION LINKS ── */
     .cell-link {
@@ -292,19 +271,12 @@
       justify-content: space-between;
       min-height: 160px;
       transition: background 0.16s;
-      position: relative;
     }
     .cell-link:hover { background: #181818; }
 
-    .cell-link-name { font-size: 1.1rem; font-weight: 500; }
-    .cell-link-url  { font-size: 0.7rem; color: rgba(255,255,255,0.26); margin-top: 6px; letter-spacing: 0.04em; }
-    .cell-link-arrow {
-      align-self: flex-end;
-      margin-top: 20px;
-      font-size: 1rem;
-      color: rgba(255,255,255,0.22);
-      transition: all 0.16s;
-    }
+    .cell-link-name  { font-size: 1.1rem; font-weight: 500; }
+    .cell-link-url   { font-size: 0.7rem; color: rgba(255,255,255,0.26); margin-top: 6px; letter-spacing: 0.04em; }
+    .cell-link-arrow { align-self: flex-end; margin-top: 20px; font-size: 1rem; color: rgba(255,255,255,0.22); transition: all 0.16s; }
     .cell-link:hover .cell-link-arrow { color: #fff; transform: translate(3px,-3px); }
 
     /* ── DIVIDER ── */
@@ -329,31 +301,44 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      background: rgba(18,18,18,0.94);
+      background: rgba(18,18,18,0.95);
       border: 1px solid rgba(255,255,255,0.09);
       border-radius: 6px;
-      padding: 10px 16px;
+      padding: 10px 14px;
       backdrop-filter: blur(16px);
     }
 
+    .music-play-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #fff;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: opacity 0.16s;
+    }
+    .music-play-btn:hover { opacity: 0.8; }
+    .music-play-btn svg { display: block; }
+
     .music-dot {
-      width: 6px; height: 6px;
+      width: 5px; height: 5px;
       border-radius: 50%;
       background: #fff;
       flex-shrink: 0;
-      transition: opacity 0.3s;
     }
     .music-dot.playing { animation: blink 1.4s ease-in-out infinite; }
     @keyframes blink {
       0%,100% { opacity: 1; }
-      50%      { opacity: 0.2; }
+      50%      { opacity: 0.15; }
     }
-    .music-text {
-      font-size: 0.7rem;
-      font-weight: 400;
-      color: rgba(255,255,255,0.55);
-      letter-spacing: 0.02em;
-    }
+
+    .music-info { display: flex; flex-direction: column; gap: 2px; }
+    .music-name { font-size: 0.72rem; font-weight: 500; color: rgba(255,255,255,0.7); letter-spacing: 0.01em; }
+    .music-status { font-size: 0.62rem; color: rgba(255,255,255,0.28); }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
@@ -376,13 +361,28 @@
   </div>
 </nav>
 
-<!-- MUSIC -->
+<!-- MUSIC BAR -->
 <div class="music-bar">
-  <div class="music-dot playing" id="musicDot"></div>
-  <span class="music-text" id="musicLabel">lilgiela33 — desapareci</span>
+  <button class="music-play-btn" id="playBtn" onclick="togglePlay()" title="Play / Pause">
+    <!-- Play icon -->
+    <svg id="iconPlay" width="10" height="12" viewBox="0 0 10 12" fill="none">
+      <path d="M1 1l8 5-8 5V1z" fill="#000"/>
+    </svg>
+    <!-- Pause icon (hidden by default) -->
+    <svg id="iconPause" width="10" height="12" viewBox="0 0 10 12" fill="none" style="display:none">
+      <rect x="1" y="1" width="3" height="10" rx="1" fill="#000"/>
+      <rect x="6" y="1" width="3" height="10" rx="1" fill="#000"/>
+    </svg>
+  </button>
+  <div class="music-dot" id="musicDot"></div>
+  <div class="music-info">
+    <span class="music-name">lilgiela33 — desapareci</span>
+    <span class="music-status" id="musicStatus">aguardando</span>
+  </div>
 </div>
 
-<div id="yt-player" style="display:none"></div>
+<!-- HIDDEN YT PLAYER -->
+<div id="yt-player" style="display:none;width:0;height:0;overflow:hidden;position:absolute"></div>
 
 <!-- HERO -->
 <section id="hero">
@@ -390,7 +390,7 @@
   <p class="hero-eyebrow" data-pt="Pentester · Developer" data-en="Pentester · Developer">Pentester · Developer</p>
   <h1 class="hero-title">LUA</h1>
   <p class="hero-sub"
-    data-pt="Segurança ofensiva, bug bounty e ferramentas de investigação. Fundador da Linarc Team &amp; Societad Group."
+    data-pt="Segurança ofensiva, bug bounty e ferramentas de investigação. Founder da Linarc Team &amp; Societad Group."
     data-en="Offensive security, bug bounty and investigation tools. Founder of Linarc Team &amp; Societad Group.">
     Segurança ofensiva, bug bounty e ferramentas de investigação. "Founder" da Linarc Team &amp; Societad Group.
   </p>
@@ -459,7 +459,7 @@
         <div class="bounty-name">WhatsApp</div>
         <div class="bounty-detail">CVE-2025-55177</div>
       </div>
-      <div class="bounty-meta" data-pt="Helper" data-en="Helper">Helper</div>
+      <div class="bounty-meta">Helper</div>
     </div>
 
     <div class="bounty-row">
@@ -472,7 +472,7 @@
     </div>
 
     <div class="bounty-row">
-      <div class="sev sev-critical">Critical</div>
+      <div class="sev sev-low">Low</div>
       <div>
         <div class="bounty-name">Mamoball</div>
         <div class="bounty-detail" data-pt="Repositório exposto / Vazamento de dados · Sem CVE" data-en="Exposed repository / Data leak · No CVE">Repositório exposto / Vazamento de dados · Sem CVE</div>
@@ -539,11 +539,11 @@
 </section>
 
 <footer>
-  <span data-pt="LUA" data-en="LUA">LUA</span>
+  <span data-pt="© 2025 LUA" data-en="© 2025 LUA">© 2025 LUA</span>
 </footer>
 
 <script>
-  // LANGUAGE
+  // ── LANGUAGE ──
   function setLang(lang) {
     document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
@@ -552,45 +552,68 @@
     });
   }
 
-  // YOUTUBE — autoplay once
-  <div id="sc-player" style="display:none"></div>
+  // ── YOUTUBE PLAYER ──
+  let player = null;
+  let playerReady = false;
+  let isPlaying = false;
+  let hasEnded = false;
 
-<script src="https://w.soundcloud.com/player/api.js"></script>
+  // Load YT API
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
 
-<script>
-const iframe = document.createElement('iframe');
-iframe.src = "https://w.soundcloud.com/player/?url=https://soundcloud.com/jp1-999-ofc/lilgiela33-e-se-eu-te-amar-guia-completa&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false";
+  window.onYouTubeIframeAPIReady = function() {
+    player = new YT.Player('yt-player', {
+      videoId: 'PCeHdS9bF20',
+      playerVars: {
+        autoplay: 0,
+        controls: 0,
+        loop: 0,
+        modestbranding: 1,
+        rel: 0
+      },
+      events: {
+        onReady: function(e) {
+          playerReady = true;
+          setStatus('pronto');
+        },
+        onStateChange: function(e) {
+          if (e.data === YT.PlayerState.PLAYING) {
+            isPlaying = true;
+            hasEnded = false;
+            setStatus('tocando');
+            document.getElementById('musicDot').classList.add('playing');
+            document.getElementById('iconPlay').style.display = 'none';
+            document.getElementById('iconPause').style.display = 'block';
+          } else if (e.data === YT.PlayerState.PAUSED) {
+            isPlaying = false;
+            setStatus('pausado');
+            document.getElementById('musicDot').classList.remove('playing');
+            document.getElementById('iconPlay').style.display = 'block';
+            document.getElementById('iconPause').style.display = 'none';
+          } else if (e.data === YT.PlayerState.ENDED) {
+            isPlaying = false;
+            hasEnded = true;
+            setStatus('encerrado');
+            document.getElementById('musicDot').classList.remove('playing');
+            document.getElementById('musicDot').style.opacity = '0.2';
+            document.getElementById('iconPlay').style.display = 'block';
+            document.getElementById('iconPause').style.display = 'none';
+          }
+        }
+      }
+    });
+  };
 
-iframe.style.display = "none";
-document.getElementById('sc-player').appendChild(iframe);
+  function togglePlay() {
+    if (!playerReady || hasEnded) return;
+    if (isPlaying) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
+  }
 
-const widget = SC.Widget(iframe);
-
-// tenta tocar várias vezes
-function tryPlay() {
-  let attempts = 0;
-
-  const interval = setInterval(() => {
-    attempts++;
-    widget.play();
-
-    if (attempts > 10) clearInterval(interval);
-  }, 500);
-}
-
-// quando carregar
-widget.bind(SC.Widget.Events.READY, function() {
-  tryPlay();
-});
-
-// 🔥 desbloqueio no primeiro toque (isso é o que garante)
-function unlockAudio() {
-  widget.play();
-}
-
-document.addEventListener('click', unlockAudio, { once: true });
-document.addEventListener('touchstart', unlockAudio, { once: true });
-</script>
-</script>
-</body>
-</html>
+  function setStatus(s) {
+    const map = { 'pronto': 'pronto', 'tocando': 'tocando', 'pausado': 'pausado'

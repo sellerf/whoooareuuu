@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LUA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-logo {
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .lang-toggle {
+      display: flex;
+      gap: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 3px;
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.45);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 5px 11px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .lang-btn.active { background: #fff; color: #000; }
+    .lang-btn:hover:not(.active) { color: #fff; }
+
+    /* ── HERO ── */
+    #hero {
+      scroll-snap-align: start;
+      min-height: 100vh;
+      background: #0a0a0a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px 80px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.14);
+      margin-bottom: 36px;
+      display: block;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: clamp(3.5rem, 12vw, 8rem);
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.5);
+      max-width: 400px;
+      line-height: 1.65;
+      margin-bottom: 36px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 12px 28px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: opacity 0.18s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn:hover { opacity: 0.8; }
+    .btn-white  { background: #fff; color: #000; }
+    .btn-outline { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.16); }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.2);
+      animation: bob 2s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── DARK CONTENT SECTIONS ── */
+    .content-section {
+      scroll-snap-align: start;
+      background: #111;
+      min-height: auto;
+      padding: 96px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .section-inner {
+      max-width: 720px;
+      width: 100%;
+    }
+
+    .section-eyebrow {
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      margin-bottom: 48px;
+      line-height: 1.15;
+    }
+
+    /* ── BIO TABLE ── */
+    .bio-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+      padding: 22px 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .bio-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.07); }
+
+    .bio-key {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      min-width: 150px;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+
+    .bio-val {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.65;
+    }
+
+    /* ── BOUNTY ── */
+    .bounty-row {
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .bounty-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.07); }
+
+    .sev {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 3px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .sev-critical { background: rgba(220,38,38,0.12); color: #f87171; border: 1px solid rgba(220,38,38,0.25); }
+    .sev-low      { background: rgba(202,138,4,0.1);  color: #fbbf24; border: 1px solid rgba(202,138,4,0.25); }
+
+    .bounty-name {
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
+    .bounty-detail {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.32);
+      margin-top: 3px;
+    }
+    .bounty-meta {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.28);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    /* ── GRID CELLS ── */
+    .cell-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    @media (max-width: 560px) { .cell-grid { grid-template-columns: 1fr; } }
+
+    .cell {
+      background: #111;
+      padding: 36px 32px;
+      transition: background 0.16s;
+    }
+    .cell:hover { background: #181818; }
+
+    .cell-name {
+      font-size: 1.15rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    .cell-desc {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.7;
+    }
+
+    /* ── CREATION LINKS ── */
+    .cell-link {
+      background: #111;
+      padding: 36px 32px;
+      text-decoration: none;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 160px;
+      transition: background 0.16s;
+      position: relative;
+    }
+    .cell-link:hover { background: #181818; }
+
+    .cell-link-name { font-size: 1.1rem; font-weight: 500; }
+    .cell-link-url  { font-size: 0.7rem; color: rgba(255,255,255,0.26); margin-top: 6px; letter-spacing: 0.04em; }
+    .cell-link-arrow {
+      align-self: flex-end;
+      margin-top: 20px;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.22);
+      transition: all 0.16s;
+    }
+    .cell-link:hover .cell-link-arrow { color: #fff; transform: translate(3px,-3px); }
+
+    /* ── DIVIDER ── */
+    .divider { height: 1px; background: rgba(255,255,255,0.05); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #000;
+      padding: 36px 32px;
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── MUSIC BAR ── */
+    .music-bar {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(18,18,18,0.94);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 6px;
+      padding: 10px 16px;
+      backdrop-filter: blur(16px);
+    }
+
+    .music-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #fff;
+      flex-shrink: 0;
+      transition: opacity 0.3s;
+    }
+    .music-dot.playing { animation: blink 1.4s ease-in-out infinite; }
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.2; }
+    }
+    .music-text {
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .bio-key { min-width: 110px; }
+      .bounty-row { grid-template-columns: 62px 1fr; }
+      .bounty-meta { display: none; }
+      .content-section { padding: 72px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">LUA</span>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('pt')" id="btn-pt">PT</button>
+    <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+  </div>
+</nav>
+
+<!-- MUSIC -->
+<div class="music-bar">
+  <div class="music-dot playing" id="musicDot"></div>
+  <span class="music-text" id="musicLabel">lilgiela33 — desapareci</span>
+</div>
+
+<div id="yt-player" style="display:none"></div>
+
+<!-- HERO -->
+<section id="hero">
+  <img src="foto.jpg" alt="LUA" class="hero-avatar">
+  <p class="hero-eyebrow" data-pt="Pentester · Developer" data-en="Pentester · Developer">Pentester · Developer</p>
+  <h1 class="hero-title">LUA</h1>
+  <p class="hero-sub"
+    data-pt="Segurança ofensiva, bug bounty e ferramentas de investigação. Fundador da Linarc Team &amp; Societad Group."
+    data-en="Offensive security, bug bounty and investigation tools. Founder of Linarc Team &amp; Societad Group.">
+    Segurança ofensiva, bug bounty e ferramentas de investigação. Fundador da Linarc Team &amp; Societad Group.
+  </p>
+  <div class="btn-group">
+    <a href="#bio" class="btn btn-white" data-pt="Ver biografia" data-en="View biography">Ver biografia</a>
+    <a href="#creations" class="btn btn-outline" data-pt="Projetos" data-en="Projects">Projetos</a>
+  </div>
+  <div class="scroll-hint">↓</div>
+</section>
+
+<!-- BIOGRAPHY -->
+<section id="bio" class="content-section">
+  <div class="section-inner">
+    <p class="section-eyebrow" data-pt="Sobre" data-en="About">Sobre</p>
+    <h2 class="section-title" data-pt="Biografia" data-en="Biography">Biografia</h2>
+
+    <div class="bio-row">
+      <span class="bio-key" data-pt="Desde" data-en="Since">Desde</span>
+      <span class="bio-val"
+        data-pt="Pentester profissional desde 2020, com estudos e prática iniciados antes da formalização."
+        data-en="Professional pentester since 2020, with studies and practice starting well before that.">
+        Pentester profissional desde 2020, com estudos e prática iniciados antes da formalização.
+      </span>
+    </div>
+
+    <div class="bio-row">
+      <span class="bio-key" data-pt="Posição" data-en="Position">Posição</span>
+      <span class="bio-val"
+        data-pt="Founder &amp; Owner da Linarc Team e do Societad Group."
+        data-en="Founder &amp; Owner of Linarc Team and Societad Group.">
+        Founder &amp; Owner da Linarc Team e do Societad Group.
+      </span>
+    </div>
+
+    <div class="bio-row">
+      <span class="bio-key" data-pt="Divisão" data-en="Division">Divisão</span>
+      <span class="bio-val"
+        data-pt="Membro participante da Divisão BANDO."
+        data-en="Active member of the BANDO Division.">
+        Membro participante da Divisão BANDO.
+      </span>
+    </div>
+
+    <div class="bio-row">
+      <span class="bio-key" data-pt="Especialidade" data-en="Specialty">Especialidade</span>
+      <span class="bio-val"
+        data-pt="Testes de intrusão, análise de vulnerabilidades, OSINT e desenvolvimento de ferramentas de segurança."
+        data-en="Penetration testing, vulnerability analysis, OSINT and security tooling development.">
+        Testes de intrusão, análise de vulnerabilidades, OSINT e desenvolvimento de ferramentas de segurança.
+      </span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BUG BOUNTIES -->
+<section class="content-section">
+  <div class="section-inner">
+    <p class="section-eyebrow" data-pt="Histórico" data-en="History">Histórico</p>
+    <h2 class="section-title" data-pt="Bug Bounties" data-en="Bug Bounties">Bug Bounties</h2>
+
+    <div class="bounty-row">
+      <div class="sev sev-low">Low</div>
+      <div>
+        <div class="bounty-name">WhatsApp</div>
+        <div class="bounty-detail">CVE-2025-55177</div>
+      </div>
+      <div class="bounty-meta" data-pt="Helper" data-en="Helper">Helper</div>
+    </div>
+
+    <div class="bounty-row">
+      <div class="sev sev-critical">Critical</div>
+      <div>
+        <div class="bounty-name">FZ Online</div>
+        <div class="bounty-detail" data-pt="Remote Code Execution (RCE) · Sem CVE" data-en="Remote Code Execution (RCE) · No CVE">Remote Code Execution (RCE) · Sem CVE</div>
+      </div>
+      <div class="bounty-meta">Solo</div>
+    </div>
+
+    <div class="bounty-row">
+      <div class="sev sev-critical">Critical</div>
+      <div>
+        <div class="bounty-name">Mamoball</div>
+        <div class="bounty-detail" data-pt="Repositório exposto / Vazamento de dados · Sem CVE" data-en="Exposed repository / Data leak · No CVE">Repositório exposto / Vazamento de dados · Sem CVE</div>
+      </div>
+      <div class="bounty-meta">Solo</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- INVENTIONS -->
+<section class="content-section">
+  <div class="section-inner">
+    <p class="section-eyebrow" data-pt="Invenções" data-en="Inventions">Invenções</p>
+    <h2 class="section-title" data-pt="Ferramentas desenvolvidas" data-en="Developed tools">Ferramentas desenvolvidas</h2>
+
+    <div class="cell-grid">
+      <div class="cell">
+        <div class="cell-name">Front</div>
+        <p class="cell-desc"
+          data-pt="Monitor de uptime de serviços. Acompanha a disponibilidade de sites e endpoints em tempo real, com alertas automáticos em caso de instabilidade."
+          data-en="Service uptime monitor. Tracks availability of websites and endpoints in real time, with automatic alerts on instability.">
+          Monitor de uptime de serviços. Acompanha a disponibilidade de sites e endpoints em tempo real, com alertas automáticos em caso de instabilidade.
+        </p>
+      </div>
+      <div class="cell">
+        <div class="cell-name">Limon</div>
+        <p class="cell-desc"
+          data-pt="Ferramenta automatizada de investigação e OSINT com monitoramento contínuo de websites. Coleta e analisa informações publicamente disponíveis de forma estruturada."
+          data-en="Automated OSINT investigation tool with continuous website monitoring. Collects and analyzes publicly available information in a structured way.">
+          Ferramenta automatizada de investigação e OSINT com monitoramento contínuo de websites. Coleta e analisa informações publicamente disponíveis de forma estruturada.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CREATIONS -->
+<section id="creations" class="content-section">
+  <div class="section-inner">
+    <p class="section-eyebrow" data-pt="Projetos" data-en="Projects">Projetos</p>
+    <h2 class="section-title" data-pt="My Creations" data-en="My Creations">My Creations</h2>
+
+    <div class="cell-grid">
+      <a href="https://societad.shop/" target="_blank" rel="noopener" class="cell-link">
+        <div>
+          <div class="cell-link-name">Societad Group</div>
+          <div class="cell-link-url">societad.shop</div>
+        </div>
+        <div class="cell-link-arrow">↗</div>
+      </a>
+      <a href="https://linarcteam.site/" target="_blank" rel="noopener" class="cell-link">
+        <div>
+          <div class="cell-link-name">Linarc Team</div>
+          <div class="cell-link-url">linarcteam.site</div>
+        </div>
+        <div class="cell-link-arrow">↗</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span data-pt="© 2025 LUA" data-en="© 2025 LUA">© 2025 LUA</span>
+</footer>
+
+<script>
+  // LANGUAGE
+  function setLang(lang) {
+    document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.querySelectorAll('[data-pt]').forEach(el => {
+      el.textContent = el.getAttribute('data-' + lang);
+    });
+  }
+
+  // YOUTUBE — autoplay once
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+
+  window.onYouTubeIframeAPIReady = function() {
+    new YT.Player('yt-player', {
+      videoId: 'PCeHdS9bF20',
+      playerVars: { autoplay: 1, controls: 0, loop: 0 },
+      events: {
+        onStateChange: function(e) {
+          if (e.data === YT.PlayerState.ENDED) {
+            document.getElementById('musicDot').classList.remove('playing');
+            document.getElementById('musicDot').style.opacity = '0.2';
+          }
+        }
+      }
+    });
+  };
+</script>
+</body>
+</html>

@@ -539,7 +539,7 @@
 </section>
 
 <footer>
-  <span data-pt="© 2025 LUA" data-en="© 2025 LUA">© 2025 LUA</span>
+  <span data-pt="LUA" data-en="LUA">LUA</span>
 </footer>
 
 <script>
@@ -553,24 +553,44 @@
   }
 
   // YOUTUBE — autoplay once
-  const tag = document.createElement('script');
-  tag.src = 'https://www.youtube.com/iframe_api';
-  document.head.appendChild(tag);
+  <div id="sc-player" style="display:none"></div>
 
-  window.onYouTubeIframeAPIReady = function() {
-    new YT.Player('yt-player', {
-      videoId: 'PCeHdS9bF20',
-      playerVars: { autoplay: 1, controls: 0, loop: 0 },
-      events: {
-        onStateChange: function(e) {
-          if (e.data === YT.PlayerState.ENDED) {
-            document.getElementById('musicDot').classList.remove('playing');
-            document.getElementById('musicDot').style.opacity = '0.2';
-          }
-        }
-      }
-    });
-  };
+<script src="https://w.soundcloud.com/player/api.js"></script>
+
+<script>
+const iframe = document.createElement('iframe');
+iframe.src = "https://w.soundcloud.com/player/?url=https://soundcloud.com/jp1-999-ofc/lilgiela33-e-se-eu-te-amar-guia-completa&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false";
+
+iframe.style.display = "none";
+document.getElementById('sc-player').appendChild(iframe);
+
+const widget = SC.Widget(iframe);
+
+// tenta tocar várias vezes
+function tryPlay() {
+  let attempts = 0;
+
+  const interval = setInterval(() => {
+    attempts++;
+    widget.play();
+
+    if (attempts > 10) clearInterval(interval);
+  }, 500);
+}
+
+// quando carregar
+widget.bind(SC.Widget.Events.READY, function() {
+  tryPlay();
+});
+
+// 🔥 desbloqueio no primeiro toque (isso é o que garante)
+function unlockAudio() {
+  widget.play();
+}
+
+document.addEventListener('click', unlockAudio, { once: true });
+document.addEventListener('touchstart', unlockAudio, { once: true });
+</script>
 </script>
 </body>
 </html>

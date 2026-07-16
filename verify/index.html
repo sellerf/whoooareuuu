@@ -29,34 +29,7 @@
   </style>
 </head>
 <body>
-  <h1>19/04</h1>
+  <h1>A QUALQUER MOMENTO</h1>
   <div id="countdown"></div>
-
-  <script>
-    function atualizarContagem() {
-      const agora = new Date();
-
-      // Defina o alvo (12 de abril às 03:33)
-      let alvo = new Date(agora.getFullYear(), 3, 19, 3, 33, 0);
-
-      // Se já passou, joga pro próximo ano
-      if (agora > alvo) {
-        alvo = new Date(agora.getFullYear() + 1, 3, 19, 3, 33, 0);
-      }
-
-      const diff = alvo - agora;
-
-      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutos = Math.floor((diff / (1000 * 60)) % 60);
-      const segundos = Math.floor((diff / 1000) % 60);
-
-      document.getElementById("countdown").innerText =
-        `${dias}d ${horas}h ${minutos}m ${segundos}s`;
-    }
-
-    setInterval(atualizarContagem, 1000);
-    atualizarContagem();
-  </script>
-</body>
+  
 </html>

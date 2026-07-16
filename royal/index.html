@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ROYAL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 56px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .nav-logo { font-size: 1.05rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }
+
+    .lang-toggle { display: flex; gap: 2px; background: rgba(255,255,255,0.08); border-radius: 6px; padding: 3px; }
+    .lang-btn {
+      background: none; border: none; color: rgba(255,255,255,0.45);
+      font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.06em; padding: 5px 11px; border-radius: 4px; cursor: pointer; transition: all 0.18s;
+    }
+    .lang-btn.active { background: #fff; color: #000; }
+    .lang-btn:hover:not(.active) { color: #fff; }
+
+    #hero {
+      scroll-snap-align: start; min-height: 100vh; background: linear-gradient(180deg,#090909 0%,#101010 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 80px 24px; text-align: center; position: relative;
+    }
+    .hero-avatar {
+      width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.14); margin-bottom: 36px; display: block;
+    }
+    .hero-eyebrow { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+    .hero-title { font-size: clamp(3.5rem, 12vw, 8rem); font-weight: 300; letter-spacing: -0.01em; line-height: 1; margin-bottom: 20px; }
+    .hero-sub { font-size: 1rem; font-weight: 400; color: rgba(255,255,255,0.5); max-width: 400px; line-height: 1.65; margin-bottom: 36px; }
+
+    .btn-group { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      display: inline-block; font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 500;
+      letter-spacing: 0.04em; padding: 12px 28px; border-radius: 4px; text-decoration: none;
+      transition: opacity 0.18s; cursor: pointer; border: none;
+    }
+    .btn:hover { opacity: 0.8; }
+    .btn-white   { background: #fff; color: #000; }
+    .btn-outline { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.16); }
+
+    .scroll-hint {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      font-size: 1.1rem; color: rgba(255,255,255,0.2); animation: bob 2s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(6px); }
+    }
+
+    .content-section {
+      scroll-snap-align: start; background: #111;
+      padding: 96px 24px; display: flex; flex-direction: column; align-items: center;
+    }
+    .section-inner { max-width: 720px; width: 100%; }
+    .section-eyebrow { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 12px; }
+    .section-title { font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 300; letter-spacing: -0.01em; margin-bottom: 48px; line-height: 1.15; }
+
+    .bio-row { display: flex; align-items: flex-start; gap: 32px; padding: 22px 0; border-top: 1px solid rgba(255,255,255,0.07); }
+    .bio-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .bio-key { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; color: rgba(255,255,255,0.3); text-transform: uppercase; min-width: 150px; flex-shrink: 0; padding-top: 2px; }
+    .bio-val { font-size: 0.9rem; font-weight: 400; color: rgba(255,255,255,0.78); line-height: 1.65; }
+
+    .bounty-row { display: grid; grid-template-columns: 72px 1fr auto; align-items: center; gap: 20px; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.07); }
+    .bounty-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .sev { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 8px; border-radius: 3px; text-align: center; white-space: nowrap; }
+    .sev-critical { background: rgba(220,38,38,0.12); color: #f87171; border: 1px solid rgba(220,38,38,0.25); }
+    .sev-low      { background: rgba(202,138,4,0.1);  color: #fbbf24; border: 1px solid rgba(202,138,4,0.25); }
+    .bounty-name   { font-size: 0.92rem; font-weight: 500; }
+    .bounty-detail { font-size: 0.75rem; color: rgba(255,255,255,0.32); margin-top: 3px; }
+    .bounty-meta   { font-size: 0.7rem; color: rgba(255,255,255,0.28); text-align: right; white-space: nowrap; }
+
+    .cell-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.07); border-radius: 6px; overflow: hidden; }
+    @media (max-width: 560px) { .cell-grid { grid-template-columns: 1fr; } }
+
+    .cell { background: #111; padding: 36px 32px; transition: background 0.16s; }
+    .cell:hover { background: #181818; }
+    .cell-name { font-size: 1.15rem; font-weight: 500; margin-bottom: 10px; }
+    .cell-desc { font-size: 0.82rem; color: rgba(255,255,255,0.4); line-height: 1.7; }
+
+    .cell-link { background: #111; padding: 36px 32px; text-decoration: none; color: #fff; display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; transition: background 0.16s; }
+    .cell-link:hover { background: #181818; }
+    .cell-link-name  { font-size: 1.1rem; font-weight: 500; }
+    .cell-link-url   { font-size: 0.7rem; color: rgba(255,255,255,0.26); margin-top: 6px; letter-spacing: 0.04em; }
+    .cell-link-arrow { align-self: flex-end; margin-top: 20px; font-size: 1rem; color: rgba(255,255,255,0.22); transition: all 0.16s; }
+    .cell-link:hover .cell-link-arrow { color: #fff; transform: translate(3px,-3px); }
+
+    .divider { height: 1px; background: rgba(255,255,255,0.05); }
+
+    footer { background: #000; padding: 36px 32px; text-align: center; font-size: 0.7rem; color: rgba(255,255,255,0.2); letter-spacing: 0.05em; }
+
+    /* MUSIC BAR */
+    .music-bar {
+      position: fixed; bottom: 22px; right: 22px; z-index: 300;
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(18,18,18,0.95); border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 6px; padding: 10px 14px; backdrop-filter: blur(16px);
+    }
+    .music-play-btn {
+      width: 28px; height: 28px; border-radius: 50%; background: #fff; border: none;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: opacity 0.16s;
+    }
+    .music-play-btn:hover { opacity: 0.8; }
+    .music-dot { width: 5px; height: 5px; border-radius: 50%; background: #fff; flex-shrink: 0; }
+    .music-dot.playing { animation: blink 1.4s ease-in-out infinite; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.15; } }
+    .music-info { display: flex; flex-direction: column; gap: 2px; }
+    .music-name-text { font-size: 0.72rem; font-weight: 500; color: rgba(255,255,255,0.7); }
+    .music-status { font-size: 0.62rem; color: rgba(255,255,255,0.28); }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .bio-key { min-width: 110px; }
+      .bounty-row { grid-template-columns: 62px 1fr; }
+      .bounty-meta { display: none; }
+      .content-section { padding: 72px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">ROYAL</span>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<div class="music-bar">
+  <button class="music-play-btn" id="playBtn" onclick="togglePlay()">
+    <svg id="iconPlay" width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M1 1l8 5-8 5V1z" fill="#000"/></svg>
+    <svg id="iconPause" width="10" height="12" viewBox="0 0 10 12" fill="none" style="display:none"><rect x="1" y="1" width="3" height="10" rx="1" fill="#000"/><rect x="6" y="1" width="3" height="10" rx="1" fill="#000"/></svg>
+  </button>
+  <div class="music-dot" id="musicDot"></div>
+  <div class="music-info">
+    <span class="music-name-text">lilgiela33 — desapareci</span>
+    <span class="music-status" id="musicStatus">pronto</span>
+  </div>
+</div>
+
+<div id="yt-player" style="position:absolute;width:0;height:0;overflow:hidden"></div>
+
+<section id="hero">
+  <img src="/royal/foto.jpg" alt="ROYAL" class="hero-avatar">
+  <p class="hero-eyebrow">Pentester · Security Researcher</p>
+  <h1 class="hero-title">ROYAL</h1>
+  <p class="hero-sub" id="heroSub">Especializado em testes de intrusão, análise de vulnerabilidades e pesquisa em segurança ofensiva. Membro da Linarc Team desde 2025.</p>
+  <div class="btn-group">
+    <a href="#bio" class="btn btn-white" id="btnBio">Ver biografia</a>
+    <a href="#creations" class="btn btn-outline" id="btnProj">Projetos</a>
+  </div>
+  <div class="scroll-hint">↓</div>
+</section>
+
+<section id="bio" class="content-section">
+  <div class="section-inner">
+    <p class="section-eyebrow" id="eyeSobre">Sobre</p>
+    <h2 class="section-title" id="titleBio">Biografia</h2>
+
+    <div class="bio-row">
+      <span class="bio-key" id="keyDesde">Desde</span>
+      <span class="bio-val" id="valDesde">2025</span>
+    </div>
+    <div class="bio-row">
+      <span class="bio-key" id="keyPosicao">Posição</span>
+      <span class="bio-val" id="valPosicao">Pentester</span>
+    </div>
+    <div class="bio-row">
+      <span class="bio-key" id="keyDivisao">Divisão</span>
+      <span class="bio-val" id="valDivisao">Linarc Team</span>
+    </div>
+    <div class="bio-row">
+      <span class="bio-key" id="keySpec">Especialidade</span>
+      <span class="bio-val" id="valSpec">Web Pentesting, Vulnerability Assessment, Network Security e OSINT.</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+
+<section id="creations" class="content-section">
+  <div class="section-inner">
+    <p class="section-eyebrow" id="eyeProj">Projetos</p>
+    <h2 class="section-title">My Team</h2>
+    <div class="cell-grid">
+      <a href="https://linarcteam.site/" target="_blank" rel="noopener" class="cell-link">
+        <div>
+          <div class="cell-link-name">Linarc Team</div>
+          <div class="cell-link-url">linarcteam.site</div>
+        </div>
+        <div class="cell-link-arrow">↗</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer id="footerText">© 2026 ROYAL</footer>
+
+<script>
+// ── TRANSLATIONS ──
+var translations = {
+  pt: {
+    heroSub:     'Segurança ofensiva, bug bounty e ferramentas de investigação. Founder da Linarc Team & Societad Group.',
+    btnBio:      'Ver biografia',
+    btnProj:     'Projetos',
+    eyeSobre:    'Sobre',
+    titleBio:    'Biografia',
+    keyDesde:    'Desde',
+    valDesde:    '2025',
+    keyPosicao:  'Posição',
+    valPosicao:  'Founder & Owner da Linarc Team e do Societad Group.',
+    keyDivisao:  'Divisão',
+    valDivisao:  'Membro participante da Divisão BANDO.',
+    keySpec:     'Especialidade',
+    valSpec:     'Web Pentesting, Vulnerability Assessment, Network Security e OSINT.',
+    eyeHistorico:'Histórico',
+    titleBounty: 'Bug Bounties',
+    detailFZ:    'Remote Code Execution (RCE) · Sem CVE',
+    detailMamo:  'Repositório exposto / Vazamento de dados · Sem CVE',
+    eyeInv:      'Invenções',
+    titleInv:    'Ferramentas desenvolvidas',
+    descFront:   'Monitor de uptime de serviços. Acompanha a disponibilidade de sites e endpoints em tempo real, com alertas automáticos em caso de instabilidade.',
+    descLimon:   'Ferramenta automatizada de investigação e OSINT com monitoramento contínuo de websites. Coleta e analisa informações publicamente disponíveis de forma estruturada.',
+    eyeProj:     'Projetos',
+    footerText:  '© 2026 ROYAL',
+    musicStatus: { ready: 'pronto', playing: 'tocando', paused: 'pausado', ended: 'encerrado' }
+  },
+  en: {
+    heroSub:     'Offensive security, bug bounty and investigation tools. Founder of Linarc Team & Societad Group.',
+    btnBio:      'View biography',
+    btnProj:     'Projects',
+    eyeSobre:    'About',
+    titleBio:    'Biography',
+    keyDesde:    'Since',
+    valDesde:    'Officially, 2020',
+    keyPosicao:  'Position',
+    valPosicao:  'Founder & Owner of Linarc Team and Societad Group.',
+    keyDivisao:  'Division',
+    valDivisao:  'Active member of the BANDO Division.',
+    keySpec:     'Specialty',
+    valSpec:     'Penetration testing, vulnerability analysis, OSINT and development.',
+    eyeHistorico:'History',
+    titleBounty: 'Bug Bounties',
+    detailFZ:    'Remote Code Execution (RCE) · No CVE',
+    detailMamo:  'Exposed repository / Data leak · No CVE',
+    eyeInv:      'Inventions',
+    titleInv:    'Developed tools',
+    descFront:   'Service uptime monitor. Tracks availability of websites and endpoints in real time, with automatic alerts on instability.',
+    descLimon:   'Automated OSINT investigation tool with continuous website monitoring. Collects and analyzes publicly available information in a structured way.',
+    eyeProj:     'Projects',
+    footerText:  '© 2026 ROYAL',
+    musicStatus: { ready: 'ready', playing: 'playing', paused: 'paused', ended: 'ended' }
+  }
+};
+
+var currentLang = 'pt';
+var currentMusicState = 'ready';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  var t = translations[lang];
+  var ids = ['heroSub','btnBio','btnProj','eyeSobre','titleBio','keyDesde','valDesde',
+    'keyPosicao','valPosicao','keyDivisao','valDivisao','keySpec','valSpec',
+    'eyeHistorico','titleBounty','detailFZ','detailMamo','eyeInv','titleInv',
+    'descFront','descLimon','eyeProj','footerText'];
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el && t[id] !== undefined) el.textContent = t[id];
+  });
+  document.getElementById('musicStatus').textContent = t.musicStatus[currentMusicState];
+}
+
+function setMusicState(state) {
+  currentMusicState = state;
+  var t = translations[currentLang];
+  document.getElementById('musicStatus').textContent = t.musicStatus[state];
+  var dot = document.getElementById('musicDot');
+  if (state === 'playing') {
+    dot.classList.add('playing');
+    document.getElementById('iconPlay').style.display = 'none';
+    document.getElementById('iconPause').style.display = 'block';
+  } else {
+    dot.classList.remove('playing');
+    document.getElementById('iconPlay').style.display = 'block';
+    document.getElementById('iconPause').style.display = 'none';
+    if (state === 'ended') dot.style.opacity = '0.2';
+  }
+}
+
+// ── YOUTUBE ──
+var player = null;
+var playerReady = false;
+var hasEnded = false;
+
+var tag = document.createElement('script');
+tag.src = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(tag);
+
+window.onYouTubeIframeAPIReady = function() {
+  player = new YT.Player('yt-player', {
+    videoId: 'PCeHdS9bF20',
+    playerVars: { autoplay: 0, controls: 0, loop: 0, modestbranding: 1, rel: 0 },
+    events: {
+      onReady: function() {
+        playerReady = true;
+        setMusicState('ready');
+      },
+      onStateChange: function(e) {
+        if (e.data === YT.PlayerState.PLAYING) setMusicState('playing');
+        else if (e.data === YT.PlayerState.PAUSED) setMusicState('paused');
+        else if (e.data === YT.PlayerState.ENDED) { hasEnded = true; setMusicState('ended'); }
+      }
+    }
+  });
+};
+
+function togglePlay() {
+  if (!playerReady || hasEnded) return;
+  var state = player.getPlayerState();
+  if (state === YT.PlayerState.PLAYING) {
+    player.pauseVideo();
+  } else {
+    player.playVideo();
+  }
+}
+</script>
+</body>
+</html>

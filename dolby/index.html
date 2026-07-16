@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang='pt-BR'>
+<head>
+  <meta charset='UTF-8'/>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+  <title>Dolby</title>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap' rel='stylesheet'>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 56px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-logo {
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .lang-toggle {
+      display: flex;
+      gap: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 3px;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.45);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 5px 11px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .lang-btn.active { background: #fff; color: #000; }
+    .lang-btn:hover:not(.active) { color: #fff; }
+
+    #hero {
+      min-height: 100vh;
+      background: #0a0a0a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.14);
+      margin-bottom: 36px;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: clamp(3.5rem, 12vw, 8rem);
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.5);
+      max-width: 500px;
+      line-height: 1.65;
+      margin-bottom: 36px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 12px 28px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: opacity 0.18s;
+      border: none;
+    }
+
+    .btn:hover { opacity: 0.8; }
+    .btn-white { background: #fff; color: #000; }
+    .btn-outline {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.2);
+      animation: bob 2s ease-in-out infinite;
+    }
+
+    @keyframes bob {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    .content-section {
+      padding: 96px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #111;
+    }
+
+    .section-inner {
+      max-width: 720px;
+      width: 100%;
+    }
+
+    .section-eyebrow {
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      font-weight: 300;
+      margin-bottom: 48px;
+    }
+
+    .bio-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+      padding: 22px 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .bio-row:last-child {
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .bio-key {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      min-width: 150px;
+    }
+
+    .bio-val {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.65;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .cell-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 560px) {
+      .cell-grid { grid-template-columns: 1fr; }
+    }
+
+    .cell-link {
+      background: #111;
+      padding: 36px 32px;
+      text-decoration: none;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 160px;
+      transition: background 0.16s;
+    }
+
+    .cell-link:hover { background: #181818; }
+
+    .cell-link-name {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .cell-link-url {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.26);
+      margin-top: 6px;
+    }
+
+    .cell-link-arrow {
+      align-self: flex-end;
+      margin-top: 20px;
+      color: rgba(255,255,255,0.22);
+    }
+
+    footer {
+      background: #000;
+      padding: 36px 32px;
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.05em;
+    }
+
+    .music-bar {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(18,18,18,0.95);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 6px;
+      padding: 10px 14px;
+      backdrop-filter: blur(16px);
+    }
+
+    .music-play-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #fff;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .music-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #fff;
+    }
+
+    .music-dot.playing {
+      animation: blink 1.4s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.15; }
+    }
+
+    .music-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .music-name-text {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .music-status {
+      font-size: 0.62rem;
+      color: rgba(255,255,255,0.28);
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .bio-key { min-width: 110px; }
+      .content-section { padding: 72px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class='nav-logo'>DOLBY</span>
+  <div class='lang-toggle'>
+    <button class='lang-btn active' id='btn-pt' onclick="setLang('pt')">PT</button>
+    <button class='lang-btn' id='btn-en' onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<div class='music-bar'>
+  <button class='music-play-btn' id='playBtn' onclick='togglePlay()'>
+    <svg id='iconPlay' width='10' height='12' viewBox='0 0 10 12' fill='none'><path d='M1 1l8 5-8 5V1z' fill='#000'/></svg>
+    <svg id='iconPause' width='10' height='12' viewBox='0 0 10 12' fill='none' style='display:none'><rect x='1' y='1' width='3' height='10' rx='1' fill='#000'/><rect x='6' y='1' width='3' height='10' rx='1' fill='#000'/></svg>
+  </button>
+  <div class='music-dot' id='musicDot'></div>
+  <div class='music-info'>
+    <span class='music-name-text'>lilgiela33 — desapareci</span>
+    <span class='music-status' id='musicStatus'>pronto</span>
+  </div>
+</div>
+
+<div id='yt-player' style='position:absolute;width:0;height:0;overflow:hidden'></div>
+
+<section id='hero'>
+  <img src='/lua/foto.jpg' alt='Dolby' class='hero-avatar'>
+  <p class='hero-eyebrow'>Member · Linarc Team</p>
+  <h1 class='hero-title'>DOLBY</h1>
+  <p class='hero-sub' id='heroSub'>Membro da Linarc Team especializado em engenharia social e coleta de informações.</p>
+  <div class='btn-group'>
+    <a href='#bio' class='btn btn-white' id='btnBio'>Ver biografia</a>
+    <a href='#team' class='btn btn-outline' id='btnProj'>Minha equipe</a>
+  </div>
+  <div class='scroll-hint'>↓</div>
+</section>
+
+<section id='bio' class='content-section'>
+  <div class='section-inner'>
+    <p class='section-eyebrow' id='eyeSobre'>Sobre</p>
+    <h2 class='section-title' id='titleBio'>Biografia</h2>
+
+    <div class='bio-row'>
+      <span class='bio-key' id='keyDesde'>Desde</span>
+      <span class='bio-val' id='valDesde'>Oficialmente, 2025</span>
+    </div>
+    <div class='bio-row'>
+      <span class='bio-key' id='keyPosicao'>Posição</span>
+      <span class='bio-val' id='valPosicao'>Member</span>
+    </div>
+    <div class='bio-row'>
+      <span class='bio-key' id='keyDivisao'>Divisão</span>
+      <span class='bio-val' id='valDivisao'>Linarc Team</span>
+    </div>
+    <div class='bio-row'>
+      <span class='bio-key' id='keySpec'>Especialidade</span>
+      <span class='bio-val' id='valSpec'>Engenharia social e coleta de informações.</span>
+    </div>
+  </div>
+</section>
+
+<div class='divider'></div>
+
+<section id='team' class='content-section'>
+  <div class='section-inner'>
+    <p class='section-eyebrow' id='eyeProj'>Equipe</p>
+    <h2 class='section-title' id='titleTeam'>My Team</h2>
+    <div class='cell-grid'>
+      <a href='https://linarcteam.site/' target='_blank' rel='noopener' class='cell-link'>
+        <div>
+          <div class='cell-link-name'>Linarc Team</div>
+          <div class='cell-link-url'>linarcteam.site</div>
+        </div>
+        <div class='cell-link-arrow'>↗</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer id='footerText'>© 2026 DOLBY</footer>
+
+<script>
+var translations = {
+  pt: {
+    heroSub: 'Membro da Linarc Team especializado em engenharia social e coleta de informações.',
+    btnBio: 'Ver biografia',
+    btnProj: 'Minha equipe',
+    eyeSobre: 'Sobre',
+    titleBio: 'Biografia',
+    keyDesde: 'Desde',
+    valDesde: 'Oficialmente, 2025',
+    keyPosicao: 'Posição',
+    valPosicao: 'Membro',
+    keyDivisao: 'Divisão',
+    valDivisao: 'Linarc Team',
+    keySpec: 'Especialidade',
+    valSpec: 'Engenharia social e coleta de informações.',
+    eyeProj: 'Equipe',
+    titleTeam: 'Minha Equipe',
+    footerText: '© 2026 DOLBY',
+    musicStatus: { ready: 'pronto', playing: 'tocando', paused: 'pausado', ended: 'encerrado' }
+  },
+  en: {
+    heroSub: 'Linarc Team member specialized in social engineering and information gathering.',
+    btnBio: 'View biography',
+    btnProj: 'My Team',
+    eyeSobre: 'About',
+    titleBio: 'Biography',
+    keyDesde: 'Since',
+    valDesde: 'Officially, 2025',
+    keyPosicao: 'Position',
+    valPosicao: 'Member',
+    keyDivisao: 'Division',
+    valDivisao: 'Linarc Team',
+    keySpec: 'Specialty',
+    valSpec: 'Social engineering and information gathering.',
+    eyeProj: 'Team',
+    titleTeam: 'My Team',
+    footerText: '© 2026 DOLBY',
+    musicStatus: { ready: 'ready', playing: 'playing', paused: 'paused', ended: 'ended' }
+  }
+};
+
+var currentLang = 'pt';
+var currentMusicState = 'ready';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+  var t = translations[lang];
+  var ids = ['heroSub','btnBio','btnProj','eyeSobre','titleBio','keyDesde','valDesde',
+    'keyPosicao','valPosicao','keyDivisao','valDivisao','keySpec','valSpec',
+    'eyeProj','titleTeam','footerText'];
+
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el && t[id] !== undefined) el.textContent = t[id];
+  });
+
+  document.getElementById('musicStatus').textContent = t.musicStatus[currentMusicState];
+}
+
+function setMusicState(state) {
+  currentMusicState = state;
+  var t = translations[currentLang];
+  document.getElementById('musicStatus').textContent = t.musicStatus[state];
+  var dot = document.getElementById('musicDot');
+
+  if (state === 'playing') {
+    dot.classList.add('playing');
+    document.getElementById('iconPlay').style.display = 'none';
+    document.getElementById('iconPause').style.display = 'block';
+  } else {
+    dot.classList.remove('playing');
+    document.getElementById('iconPlay').style.display = 'block';
+    document.getElementById('iconPause').style.display = 'none';
+    if (state === 'ended') dot.style.opacity = '0.2';
+  }
+}
+
+var player = null;
+var playerReady = false;
+var hasEnded = false;
+
+var tag = document.createElement('script');
+tag.src = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(tag);
+
+window.onYouTubeIframeAPIReady = function() {
+  player = new YT.Player('yt-player', {
+    videoId: 'PCeHdS9bF20',
+    playerVars: { autoplay: 0, controls: 0, loop: 0, modestbranding: 1, rel: 0 },
+    events: {
+      onReady: function() {
+        playerReady = true;
+        setMusicState('ready');
+      },
+      onStateChange: function(e) {
+        if (e.data === YT.PlayerState.PLAYING) setMusicState('playing');
+        else if (e.data === YT.PlayerState.PAUSED) setMusicState('paused');
+        else if (e.data === YT.PlayerState.ENDED) {
+          hasEnded = true;
+          setMusicState('ended');
+        }
+      }
+    }
+  });
+};
+
+function togglePlay() {
+  if (!playerReady || hasEnded) return;
+  var state = player.getPlayerState();
+  if (state === YT.PlayerState.PLAYING) player.pauseVideo();
+  else player.playVideo();
+}
+</script>
+
+</body>
+</html>

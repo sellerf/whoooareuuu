@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { secureHeaders } from 'hono/secure-headers';
-import { attachDatabasePool } from '@neon/functions';
+import { attachDatabasePool } from '@vercel/functions';
 import { Pool, type QueryResultRow } from 'pg';
 import bcrypt from 'bcryptjs';
 import { createHash, randomBytes, timingSafeEqual } from 'crypto';

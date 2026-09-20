@@ -4,7 +4,7 @@
  * removes the public prefix before passing the request to Hono.
  */
 import { Hono } from 'hono';
-import api from '../../../functions/api';
+import api from '../../../functions/api.js';
 
 const entry = new Hono();
 const publicPrefix = '/api/team/area-restrita';

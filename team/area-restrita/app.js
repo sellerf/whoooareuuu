@@ -2,6 +2,10 @@
 'use strict';
 
 const TOKEN_KEY = 'linarc.token.v3';
+/* Deriva a base pelo local do próprio arquivo: funciona em / e em subpastas. */
+const scriptUrl = new URL(document.currentScript?.src || location.href, location.href);
+const APP_BASE = scriptUrl.pathname.replace(/\/app\.js$/, '/').replace(/\/{2,}/g, '/');
+const API_BASE = APP_BASE.replace(/\/$/, '') + '/api';
 const OPTS = [
   { key: 'favor', label: 'A favor', shade: '#000' },
   { key: 'contra', label: 'Contra', shade: '#737373' },
@@ -100,7 +104,10 @@ function confirmDialog({ title, text, confirmLabel }) {
 async function api(path, opts = {}) {
   const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
   if (token) headers.Authorization = 'Bearer ' + token;
-  const res = await fetch(path, { ...opts, headers });
+  const endpoint = path.startsWith('/api')
+    ? API_BASE + path.slice('/api'.length)
+    : new URL(path, location.origin + APP_BASE).pathname;
+  const res = await fetch(endpoint, { ...opts, headers });
   let data = null;
   try { data = await res.json(); } catch { data = null; }
   if (res.status === 401 && !path.includes('/login')) {

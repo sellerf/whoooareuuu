@@ -3,7 +3,7 @@
   "framework": null,
   "trailingSlash": false,
   "functions": {
-    "api/[...path].ts": { "maxDuration": 30 }
+    "api/team/area-restrita/[...path].ts": { "maxDuration": 30 }
   },
   "headers": [
     {

@@ -2,10 +2,8 @@
 'use strict';
 
 const TOKEN_KEY = 'linarc.token.v3';
-/* Deriva a base pelo local do próprio arquivo: funciona em / e em subpastas. */
-const scriptUrl = new URL(document.currentScript?.src || location.href, location.href);
-const APP_BASE = scriptUrl.pathname.replace(/\/app\.js$/, '/').replace(/\/{2,}/g, '/');
-const API_BASE = APP_BASE.replace(/\/$/, '') + '/api';
+/* API Vercel do painel. Não depende de barra final na URL da página. */
+const API_BASE = '/api/team/area-restrita';
 const OPTS = [
   { key: 'favor', label: 'A favor', shade: '#000' },
   { key: 'contra', label: 'Contra', shade: '#737373' },
@@ -106,7 +104,7 @@ async function api(path, opts = {}) {
   if (token) headers.Authorization = 'Bearer ' + token;
   const endpoint = path.startsWith('/api')
     ? API_BASE + path.slice('/api'.length)
-    : new URL(path, location.origin + APP_BASE).pathname;
+    : path;
   const res = await fetch(endpoint, { ...opts, headers });
   let data = null;
   try { data = await res.json(); } catch { data = null; }

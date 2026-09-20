@@ -945,6 +945,17 @@ app.get('/api/logs/stats', requireAuth, async (c) => {
   });
 });
 
+/*
+ * Public production prefix. Vercel exposes the function at
+ * /api/team/area-restrita/* while the application routes stay namespaced
+ * internally under /api/*.
+ */
+app.all('/api/team/area-restrita/*', (c) => {
+  const url = new URL(c.req.raw.url);
+  url.pathname = '/api' + url.pathname.slice('/api/team/area-restrita'.length);
+  return app.fetch(new Request(url, c.req.raw));
+});
+
 app.onError(async (err, c) => {
   console.error(err);
   try {

@@ -233,6 +233,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0
 <body>
 <div id="app"></div>
 <noscript><p style="padding:24px;font-family:sans-serif">Ative o JavaScript.</p></noscript>
-<script src="./app.js" defer></script>
+<!-- Caminho absoluto evita 404 quando a URL é /team/area-restrita sem a barra final. -->
+<script src="/team/area-restrita/app.js" defer></script>
 </body>
 </html>

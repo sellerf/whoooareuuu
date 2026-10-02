@@ -1,5 +1,11 @@
 (() => {
   'use strict';
+  // Keep the visible URL canonical without requesting the page a second time.
+  if (window.location.pathname === '/hello') {
+    const cleanPath = `/hello/${window.location.search}${window.location.hash}`;
+    window.history.replaceState(window.history.state, '', cleanPath);
+  }
+
   const $ = (selector) => document.querySelector(selector);
   const windows = {
     discord: $('#discordWindow'),

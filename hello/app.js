@@ -19,7 +19,7 @@
     en: {
       welcome: 'YOU HAVE BEEN EXPECTED', start: 'hello', terminalWelcome: 'hello system [build 18.12.1878]', terminalHint: 'one command remains.',
       discordTitle: 'disccccord / invitation', external: 'EXTERNAL GATEWAY', discordHeadline: 'the door is still open.',
-      discordBody: 'You were not supposed to find this place.', discordButton: 'ENTER DISCCCCORD', discordFoot: 'destination verified · discord.gg/pentesting',
+      discordBody: 'You were not supposed to find this place.', discordButton: 'ENTER DISCCCCORD', discordFoot: 'destination verified — discord.gg/pentesting',
       linarcTitle: 'lnrrrrrc / node 01', linarcNetwork: 'LINARC NETWORK', linarcHeadline: 'follow the bando.',
       linarcBody: 'Somewhere, the signal remembers you.', linarcButton: 'OPEN NODE', linarcFoot: 'route: linarcteam.site',
       invalid: 'invalid command', whisper: '...it heard you.',
@@ -27,7 +27,7 @@
     pt: {
       welcome: 'ESTAVAM ESPERANDO POR VOCÊ', start: 'hello', terminalWelcome: 'sistema hello [versão 18.12.1878]', terminalHint: 'resta um comando.',
       discordTitle: 'disccccord / convite', external: 'PORTAL EXTERNO', discordHeadline: 'a porta ainda está aberta.',
-      discordBody: 'Você não deveria ter encontrado este lugar.', discordButton: 'ENTRAR NO DISCCCCORD', discordFoot: 'destino verificado · discord.gg/pentesting',
+      discordBody: 'Você não deveria ter encontrado este lugar.', discordButton: 'ENTRAR NO DISCCCCORD', discordFoot: 'destino verificado — discord.gg/pentesting',
       linarcTitle: 'lnrrrrrc / nó 01', linarcNetwork: 'REDE LINARC', linarcHeadline: 'siga o bando.',
       linarcBody: 'Em algum lugar, o sinal se lembra de você.', linarcButton: 'ABRIR NÓ', linarcFoot: 'rota: linarcteam.site',
       invalid: 'comando inválido', whisper: '...ele ouviu você.',

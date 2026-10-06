@@ -1,577 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Linarc Team</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #ffffff;
-    --fg: #0a0a0a;
-    --fg2: #444;
-    --border: #e0e0e0;
-    --card-bg: #f7f7f7;
-    --nav-h: 64px;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: 'Outfit', sans-serif;
-    overflow-x: hidden;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: var(--nav-h);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 48px;
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-    z-index: 100;
-  }
-
-  .nav-logo {
-    font-size: 22px;
-    font-weight: 900;
-    letter-spacing: -0.5px;
-    color: var(--fg);
-    text-decoration: none;
-  }
-  .nav-logo span { color: #555; font-weight: 300; }
-
-  .nav-links {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    list-style: none;
-  }
-  .nav-links a {
-    color: var(--fg);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 8px;
-    transition: background .18s, color .18s;
-  }
-  .nav-links a:hover { background: var(--fg); color: #fff; }
-
-  .nav-right { display: flex; align-items: center; gap: 12px; }
-
-  .lang-toggle {
-    display: flex;
-    border: 1.5px solid var(--fg);
-    border-radius: 8px;
-    overflow: hidden;
-    user-select: none;
-  }
-  .lang-btn {
-    padding: 6px 14px;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: 'DM Mono', monospace;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: background .18s, color .18s;
-    color: var(--fg);
-  }
-  .lang-btn.active { background: var(--fg); color: #fff; }
-
-  .discord-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--fg);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 18px;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: 'Outfit', sans-serif;
-    cursor: pointer;
-    text-decoration: none;
-    transition: opacity .18s, transform .15s;
-  }
-  .discord-btn:hover { opacity: .82; transform: translateY(-1px); }
-  .discord-btn svg { width: 18px; height: 18px; fill: #fff; }
-
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: calc(var(--nav-h) + 40px) 24px 80px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 70% 50% at 50% 60%, #f0f0f0 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-eyebrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 20px;
-    animation: fadeUp .7s .1s both;
-  }
-
-  .hero-title {
-    font-size: clamp(52px, 9vw, 120px);
-    font-weight: 900;
-    line-height: .95;
-    letter-spacing: -3px;
-    color: var(--fg);
-    margin-bottom: 24px;
-    animation: fadeUp .7s .2s both;
-  }
-  .hero-title em { font-style: normal; color: #aaa; }
-
-  .hero-sub {
-    font-size: clamp(16px, 2vw, 20px);
-    color: var(--fg2);
-    font-weight: 300;
-    max-width: 560px;
-    line-height: 1.55;
-    margin-bottom: 40px;
-    animation: fadeUp .7s .3s both;
-  }
-
-  .hero-ctas {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-    animation: fadeUp .7s .4s both;
-  }
-
-  .btn-primary {
-    background: var(--fg);
-    color: #fff;
-    border: none;
-    border-radius: 9px;
-    padding: 14px 32px;
-    font-size: 15px;
-    font-weight: 600;
-    font-family: 'Outfit', sans-serif;
-    cursor: pointer;
-    text-decoration: none;
-    transition: opacity .18s, transform .15s;
-  }
-  .btn-primary:hover { opacity: .82; transform: translateY(-2px); }
-
-  .btn-outline {
-    background: transparent;
-    color: var(--fg);
-    border: 1.5px solid var(--fg);
-    border-radius: 9px;
-    padding: 14px 32px;
-    font-size: 15px;
-    font-weight: 600;
-    font-family: 'Outfit', sans-serif;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background .18s, color .18s, transform .15s;
-  }
-  .btn-outline:hover { background: var(--fg); color: #fff; transform: translateY(-2px); }
-
-  /* SECTION */
-  section { padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
-
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #999;
-    margin-bottom: 12px;
-  }
-
-  .section-title {
-    font-size: clamp(28px, 4vw, 48px);
-    font-weight: 800;
-    letter-spacing: -1px;
-    margin-bottom: 48px;
-    line-height: 1.1;
-  }
-
-  /* NEWS */
-  .news-grid {
-    display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr;
-    gap: 20px;
-  }
-
-  .news-card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    cursor: pointer;
-    transition: transform .2s, box-shadow .2s;
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-  }
-  .news-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,.1); }
-  .news-card.featured { grid-row: span 2; }
-
-  .news-img {
-    width: 100%;
-    aspect-ratio: 16/9;
-    background: linear-gradient(135deg, #e8e8e8, #d0d0d0);
-    position: relative;
-    overflow: hidden;
-  }
-  .news-card.featured .news-img { aspect-ratio: 4/3; }
-
-  .news-img-inner {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 48px; opacity: .18;
-  }
-  .news-img > img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .news-body { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
-  .news-tag { font-size: 11px; font-family: 'DM Mono', monospace; letter-spacing: 2px; text-transform: uppercase; color: #888; }
-  .news-headline { font-size: 16px; font-weight: 700; line-height: 1.3; color: var(--fg); }
-  .news-card.featured .news-headline { font-size: 22px; }
-  .news-date { font-size: 12px; color: #aaa; margin-top: auto; font-family: 'DM Mono', monospace; }
-
-  /* PRODUCTS */
-  .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-
-  .product-card {
-    background: var(--fg);
-    color: #fff;
-    border-radius: 16px;
-    padding: 36px 32px;
-    cursor: pointer;
-    transition: transform .2s, opacity .2s;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    min-height: 200px;
-    position: relative;
-    overflow: hidden;
-  }
-  .product-card::after {
-    content: '';
-    position: absolute;
-    bottom: -40px; right: -40px;
-    width: 120px; height: 120px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.06);
-  }
-  .product-card:hover { transform: translateY(-4px); opacity: .9; }
-  .product-icon { font-size: 28px; margin-bottom: 4px; }
-  .product-name { font-size: 20px; font-weight: 800; letter-spacing: -.5px; }
-  .product-desc { font-size: 14px; color: rgba(255,255,255,.6); font-weight: 300; line-height: 1.5; }
-  .product-arrow { margin-top: auto; font-size: 20px; opacity: .4; }
-
-  /* ABOUT */
-  .about-section {
-    padding: 100px 0;
-    background: var(--fg);
-    color: #fff;
-  }
-  .about-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 48px;
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 80px;
-    align-items: center;
-  }
-
-  .about-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,.4);
-    margin-bottom: 12px;
-  }
-
-  .about-title {
-    font-size: clamp(32px, 4vw, 54px);
-    font-weight: 900;
-    letter-spacing: -1.5px;
-    line-height: 1.05;
-    margin-bottom: 32px;
-    color: #fff;
-  }
-  .about-title em { font-style: normal; color: rgba(255,255,255,.3); }
-
-  .about-text {
-    font-size: 16px;
-    color: rgba(255,255,255,.7);
-    line-height: 1.8;
-    font-weight: 300;
-    margin-bottom: 20px;
-  }
-  .about-text strong { color: #fff; font-weight: 700; }
-
-  .bando-link {
-    font-style: italic;
-    text-decoration: overline;
-    color: #fff;
-    font-weight: 700;
-    cursor: pointer;
-    transition: opacity .18s;
-  }
-  .bando-link:hover { opacity: .6; }
-
-  .about-badges { display: flex; flex-direction: column; gap: 16px; }
-
-  .about-badge {
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 14px;
-    padding: 24px 28px;
-    background: rgba(255,255,255,.04);
-    transition: background .2s;
-  }
-  .about-badge:hover { background: rgba(255,255,255,.08); }
-  .about-badge-icon { font-size: 22px; margin-bottom: 8px; }
-  .about-badge-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-  .about-badge-desc { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.5; }
-
-  /* FOOTER */
-  footer {
-    text-align: center;
-    padding: 48px;
-    border-top: 1px solid var(--border);
-    color: #aaa;
-    font-size: 13px;
-    font-family: 'DM Mono', monospace;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @media (max-width: 900px) {
-    nav { padding: 0 20px; }
-    .nav-links { display: none; }
-    section { padding: 60px 20px; }
-    .news-grid { grid-template-columns: 1fr; }
-    .news-card.featured { grid-row: span 1; }
-    .products-grid { grid-template-columns: 1fr; }
-    .about-inner { grid-template-columns: 1fr; gap: 40px; padding: 0 20px; }
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08090b">
+  <meta name="description" content="Linarc Team — pessoas, ideias e ferramentas independentes.">
+  <title>Linarc Team — ideias livres e boas conexões</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{color-scheme:dark;--bg:#08090b;--panel:#101216;--text:#f4f5f2;--muted:#8a8d94;--line:rgba(255,255,255,.11);--accent:#ff3b4f;--mono:'DM Mono',monospace;--sans:'Manrope',sans-serif}
+    *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;scroll-padding-top:88px}body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden}a{color:inherit;text-decoration:none}::selection{background:var(--accent);color:#150609}
+    .grain{position:fixed;inset:0;pointer-events:none;z-index:4;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E")}
+    .nav{position:fixed;z-index:10;inset:0 0 auto;height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 6vw;border-bottom:1px solid transparent;transition:.3s;background:linear-gradient(180deg,rgba(8,9,11,.88),transparent)}.nav.scrolled{height:66px;background:rgba(8,9,11,.88);backdrop-filter:blur(18px);border-color:var(--line)}.brand{font-weight:800;letter-spacing:-.06em;font-size:18px}.brand i{font-style:normal;color:var(--accent)}.nav-links{display:flex;align-items:center;gap:32px;list-style:none}.nav-links a{font:11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#a5a7aa;transition:color .2s}.nav-links a:hover,.nav-links a.active{color:var(--accent)}.nav-cta{border:1px solid var(--line);padding:11px 16px;border-radius:99px;font:10px var(--mono);text-transform:uppercase;letter-spacing:.08em;transition:.2s}.nav-cta:hover{background:var(--accent);border-color:var(--accent);color:#150609}
+    .wrap{width:min(1120px,88vw);margin:auto}.hero{background:radial-gradient(ellipse 65% 55% at 78% 52%,rgba(255,59,79,.10),transparent 72%);min-height:100svh;position:relative;display:flex;align-items:center;overflow:hidden;padding:130px 0 100px}.hero::before{content:'';position:absolute;width:56vw;height:56vw;right:-15vw;top:4%;border:1px solid rgba(255,59,79,.12);border-radius:50%;box-shadow:0 0 0 70px rgba(255,59,79,.018),0 0 0 140px rgba(255,59,79,.013);animation:orbit 28s linear infinite}.hero::after{content:'';position:absolute;width:36vw;height:36vw;right:-5vw;top:15%;border:1px solid rgba(255,255,255,.07);border-radius:50%;animation:orbit 20s linear infinite reverse}.hero-content{position:relative;z-index:1;max-width:790px}.eyebrow,.kicker{font:11px var(--mono);letter-spacing:.17em;text-transform:uppercase;color:var(--accent)}.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:28px}.eyebrow::before{content:'';height:1px;width:30px;background:var(--accent)}h1{font-size:clamp(50px,8vw,108px);line-height:.88;letter-spacing:-.095em;font-weight:600;max-width:850px}h1 span{color:var(--accent)}.hero-copy{margin-top:30px;max-width:450px;color:#a2a4a8;font-size:15px;line-height:1.8}.hero-actions{display:flex;align-items:center;gap:14px;margin-top:34px}.button{display:inline-flex;align-items:center;gap:20px;padding:15px 19px;border:1px solid var(--accent);border-radius:2px;background:var(--accent);color:#150609;font:11px var(--mono);letter-spacing:.06em;text-transform:uppercase;transition:transform .25s,background .25s}.button:hover{transform:translateY(-3px);background:#ffb0b8}.button.ghost{background:transparent;color:var(--text);border-color:var(--line)}.button.ghost:hover{border-color:var(--accent);color:var(--accent)}.hero-index{position:absolute;right:6vw;bottom:12%;font:10px var(--mono);color:#777;letter-spacing:.1em}.scroll-label{position:absolute;left:6vw;bottom:42px;display:flex;align-items:center;gap:12px;color:#777;font:10px var(--mono);letter-spacing:.12em;text-transform:uppercase}.scroll-label span{display:block;width:44px;height:1px;background:var(--accent);transform-origin:left;animation:line 1.7s ease-in-out infinite}
+    .section{padding:130px 0;border-top:1px solid var(--line);position:relative}.section-head{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:54px}.section h2{font-size:clamp(40px,7vw,82px);line-height:.98;letter-spacing:-.075em;font-weight:600;margin-top:18px}.section-intro{max-width:300px;color:var(--muted);font-size:13px;line-height:1.8}.manifesto{display:grid;grid-template-columns:1fr 1.2fr;gap:10vw;align-items:start}.manifesto-statement{font-size:clamp(29px,4.3vw,54px);line-height:1.12;letter-spacing:-.06em}.manifesto-statement span{color:var(--accent)}.manifesto-body{padding-top:7px;color:var(--muted);font-size:14px;line-height:1.95;max-width:460px}.manifesto-body p+p{margin-top:20px}.divider-label{margin-top:52px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:#777;font:10px var(--mono);letter-spacing:.11em;text-transform:uppercase}
+    .people-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.person{min-height:310px;padding:30px;position:relative;overflow:hidden;border:1px solid var(--line);background:linear-gradient(140deg,#14171a,#0c0d0f);transition:transform .35s,border-color .35s}.person:hover{transform:translateY(-6px);border-color:rgba(255,59,79,.5)}.person::after{content:'';position:absolute;width:210px;height:210px;border:1px solid rgba(255,59,79,.14);border-radius:50%;right:-80px;bottom:-100px;transition:transform .5s}.person:hover::after{transform:scale(1.25)}.person-top{display:flex;justify-content:space-between;align-items:center}.person-number{font:10px var(--mono);color:#777}.person-mark{font-size:38px;color:var(--accent);font-weight:400;line-height:1}.person h3{font-size:42px;letter-spacing:-.07em;margin-top:78px}.person p{font-size:12px;color:var(--muted);margin-top:5px}.person-link{display:inline-flex;gap:15px;margin-top:22px;font:10px var(--mono);text-transform:uppercase;letter-spacing:.08em}.person-link span{color:var(--accent);transition:transform .2s}.person:hover .person-link span{transform:translate(4px,-4px)}
+    .tools-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.tool{position:relative;min-height:280px;padding:28px;border:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:.35s}.tool:hover{border-color:var(--accent);background:#181013}.tool::before{content:'';position:absolute;width:160px;height:160px;border-radius:50%;right:-60px;top:-70px;background:radial-gradient(circle,rgba(255,59,79,.16),transparent 70%);transition:transform .5s}.tool:hover::before{transform:scale(1.5)}.tool-top{display:flex;justify-content:space-between;color:#777;font:10px var(--mono);letter-spacing:.1em}.tool-icon{color:var(--accent);font-size:19px}.tool h3{font-size:34px;letter-spacing:-.06em}.tool p{max-width:380px;color:var(--muted);font-size:12px;line-height:1.75;margin-top:8px}.tool-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:34px;font:10px var(--mono);text-transform:uppercase;letter-spacing:.09em}.tool-bottom span:last-child{color:var(--accent);font-size:18px;transition:transform .2s}.tool:hover .tool-bottom span:last-child{transform:translate(4px,-4px)}
+    .closing{padding:100px 0 120px;border-top:1px solid var(--line);display:flex;align-items:end;justify-content:space-between;gap:32px}.closing h2{font-size:clamp(42px,8vw,90px);line-height:.94;letter-spacing:-.08em}.closing h2 span{color:var(--accent)}.closing-side{max-width:250px;color:var(--muted);font-size:12px;line-height:1.8}.closing-side .button{margin-top:20px}footer{border-top:1px solid var(--line);padding:25px 6vw;display:flex;justify-content:space-between;color:#6d7074;font:9px var(--mono);letter-spacing:.09em;text-transform:uppercase}.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}.reveal.visible{opacity:1;transform:none}.stagger>*{transition-delay:calc(var(--i,0)*100ms)}
+    @keyframes orbit{to{transform:rotate(360deg)}}@keyframes line{0%,100%{transform:scaleX(.4);opacity:.5}50%{transform:scaleX(1);opacity:1}}
+    @media(max-width:700px){.nav{padding:0 6vw}.nav-links{gap:14px}.nav-links li:nth-child(2){display:none}.nav-cta{display:none}.hero{min-height:92svh}.hero::before{width:90vw;height:90vw;right:-44vw;top:12%}.hero::after{width:62vw;height:62vw;right:-28vw;top:25%}.hero-index{right:6vw;bottom:8%}.section{padding:92px 0}.section-head{display:block}.section-intro{margin-top:20px}.manifesto{grid-template-columns:1fr;gap:28px}.people-grid,.tools-grid{grid-template-columns:1fr}.person{min-height:270px}.person h3{margin-top:55px}.tool{min-height:240px}.closing{display:block}.closing-side{margin-top:28px}footer{gap:20px;flex-wrap:wrap}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+      /* Scroll polish */
+    html{scrollbar-width:thin;scrollbar-color:var(--accent) #0a0a0c;scroll-behavior:smooth;scroll-padding-top:88px;overscroll-behavior-y:contain}
+    ::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#0a0a0c}::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#ff6878,var(--accent));border:3px solid #0a0a0c;border-radius:99px}::-webkit-scrollbar-thumb:hover{background:#ff9aa4}
+    .scroll-progress{position:fixed;z-index:20;inset:0 auto auto 0;width:100%;height:3px;pointer-events:none;background:rgba(255,59,79,.12)}.scroll-progress span{display:block;width:100%;height:100%;background:var(--accent);transform:scaleX(0);transform-origin:left center;will-change:transform;box-shadow:0 0 14px rgba(255,59,79,.6)}
+    .reveal{transition:opacity .9s cubic-bezier(.2,.75,.2,1),transform .9s cubic-bezier(.2,.75,.2,1);will-change:opacity,transform}.reveal.visible{will-change:auto}
+    .hero-content,.hero .content{animation:hero-arrive 1s cubic-bezier(.16,1,.3,1) both}.hero .hero-content>*{animation:hero-arrive .9s cubic-bezier(.16,1,.3,1) both}.hero .hero-content>*:nth-child(2){animation-delay:.1s}.hero .hero-content>*:nth-child(3){animation-delay:.2s}.hero .hero-content>*:nth-child(4){animation-delay:.3s}
+    @keyframes hero-arrive{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}::-webkit-scrollbar-thumb{background:var(--accent)}.hero-content,.hero .content,.hero .hero-content>*{animation:none!important}}
+  </style>
 </head>
 <body>
-
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="#">Linarc<span> Team</span></a>
-
-  <ul class="nav-links">
-    <li><a href="#news" data-pt="Últimas Notícias" data-en="Latest News">Últimas Notícias</a></li>
-    <li><a href="https://societad.shop/linarc" target="_blank" data-pt="Produtos" data-en="Products">Produtos</a></li>
-    <li><a href="#about" data-pt="About Us" data-en="About Us">About Us</a></li>
-  </ul>
-
-  <div class="nav-right">
-    <div class="lang-toggle">
-      <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">PT</button>
-      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
-    </div>
-    <a class="discord-btn" href="https://discord.gg/uQujud3BDF" target="_blank">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 0 0-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 0 0-5.487 0 12.36 12.36 0 0 0-.617-1.23A.077.077 0 0 0 8.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 0 0-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 0 0 .031.055 20.03 20.03 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028zM8.02 15.278c-1.182 0-2.157-1.069-2.157-2.38 0-1.312.956-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.956 2.38-2.157 2.38zm7.975 0c-1.183 0-2.157-1.069-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.946 2.38-2.157 2.38z"/>
-      </svg>
-      Discord
-    </a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<div class="hero">
-  <p class="hero-eyebrow" data-pt="Bem-vindo à Linarc Team" data-en="Welcome to Linarc Team">Bem-vindo à Linarc Team</p>
-  <h1 class="hero-title" data-pt="Siga o<br><em>Bando.</em>" data-en="Follow the<br><em>Bando.</em>">Siga o<br><em>Bando.</em></h1>
-  <p class="hero-sub" data-pt='Somos o futuro. Não Siga "eles".' data-en='We are the future. Don&apos;t follow "them".'>Somos o futuro. Não Siga "eles".</p>
-  <div class="hero-ctas">
-    <a class="btn-primary" href="#about" data-pt="Nos Conheça" data-en="Meet Us">Nos Conheça</a>
-    <a class="btn-outline" href="#news" data-pt="Ver Notícias" data-en="See News">Ver Notícias</a>
-  </div>
-</div>
-
-<!-- NEWS -->
-<section id="news">
-  <p class="section-label" data-pt="ÚLTIMAS NOTÍCIAS" data-en="LATEST NEWS">ÚLTIMAS NOTÍCIAS</p>
-  <h2 class="section-title" data-pt="O que está<br>acontecendo" data-en="What's<br>happening">O que está<br>acontecendo</h2>
-
-  <div class="news-grid">
-    <a class="news-card featured" href="#lastnews">
-      <div class="news-img">
-        <img src="img/noticia3.png" alt="" width="800" height="450" loading="lazy" decoding="async">
-      </div>
-      <div class="news-body">
-        <span class="news-tag" data-pt="DESTAQUE" data-en="FEATURED">DESTAQUE</span>
-        <p class="news-headline" data-pt="Linarc Team anuncia Societad.Shop" data-en="Linarc Team announces Societad.Shop">Linarc Team anuncia Societad.Shop</p>
-        <span class="news-date">08 ABR 2026</span>
-      </div>
-    </a>
-
-    <a class="news-card" href="#lastnews">
-      <div class="news-img">
-        <img src="img/noticia4.png" alt="" width="800" height="450" loading="lazy" decoding="async">
-      </div>
-      <div class="news-body">
-        <span class="news-tag" data-pt="ATUALIZAÇÃO" data-en="UPDATE">ATUALIZAÇÃO</span>
-        <p class="news-headline" data-pt="Nova linha de produtos disponível na loja oficial" data-en="New product line available in the official store">Nova linha de produtos disponível na loja oficial</p>
-        <span class="news-date">05 ABR 2026</span>
-      </div>
-    </a>
-
-    <a class="news-card" href="#lastnews">
-      <div class="news-img">
-        <img src="img/noticia1.png" alt="" width="800" height="450" loading="lazy" decoding="async">
-      </div>
-      <div class="news-body">
-        <span class="news-tag" data-pt="COMUNIDADE" data-en="COMMUNITY">COMUNIDADE</span>
-        <p class="news-headline" data-pt="Servidor do Discord atinge nova marca de membros" data-en="Discord server reaches new membership milestone">Servidor do Discord atinge nova marca de membros</p>
-        <span class="news-date">02 ABR 2026</span>
-      </div>
-    </a>
-
-    <a class="news-card" href="#lastnews">
-      <div class="news-img">
-        <img src="img/noticia2.png" alt="" width="800" height="450" loading="lazy" decoding="async">
-      </div>
-      <div class="news-body">
-        <span class="news-tag" data-pt="EVENTO" data-en="EVENT">EVENTO</span>
-        <p class="news-headline" data-pt="Evento exclusivo para membros, fique de olho!" data-en="Exclusive event for members, stay tuned!">Evento exclusivo para membros, fique de olho!</p>
-        <span class="news-date">28 MAR 2026</span>
-      </div>
-    </a>
-  </div>
-</section>
-
-<!-- PRODUCTS -->
-<div style="background:#fff; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
-  <section id="products">
-    <p class="section-label" data-pt="PRODUTOS" data-en="PRODUCTS">PRODUTOS</p>
-    <h2 class="section-title" data-pt="Nossa loja<br>oficial" data-en="Our official<br>store">Nossa loja<br>oficial</h2>
-
-    <div class="products-grid">
-      <a class="product-card" href="https://societad.shop/linarc" target="_blank">
-        <div class="product-icon">👕</div>
-        <p class="product-name" data-pt="Coleção Linarc" data-en="Linarc Collection">Coleção Linarc</p>
-        <p class="product-desc" data-pt="Roupas e acessórios exclusivos da team." data-en="Exclusive clothing and accessories from the team.">Roupas e acessórios exclusivos da team.</p>
-        <p class="product-arrow">→</p>
-      </a>
-
-      <a class="product-card" href="https://societad.shop/linarc" target="_blank" style="background:#1a1a1a;">
-        <div class="product-icon">📦</div>
-        <p class="product-name" data-pt="Ver Tudo" data-en="See All">Ver Tudo</p>
-        <p class="product-desc" data-pt="Explore todo o catálogo na nossa loja oficial." data-en="Browse the full catalog in our official store.">Explore todo o catálogo na nossa loja oficial.</p>
-        <p class="product-arrow">→</p>
-      </a>
-    </div>
-  </section>
-</div>
-
-<!-- ABOUT -->
-<div class="about-section" id="about">
-  <div class="about-inner">
-    <div>
-      <p class="about-label" data-pt="SOBRE NÓS" data-en="ABOUT US">SOBRE NÓS</p>
-      <h2 class="about-title" data-pt="Somos a<br><em>elite</em><br>da Societad." data-en="We are<br><em>the elite</em><br>of Societad.">Somos a<br><em>elite</em><br>da Societad.</h2>
-
-      <p class="about-text" data-pt="A <strong>Linarc Team</strong> é um time de <strong>cibersegurança</strong> em busca de um mundo digital mais seguro e justo. Não somos apenas um grupo — somos uma força." data-en="<strong>Linarc Team</strong> is a <strong>cybersecurity</strong> team in pursuit of a safer, fairer digital world. We are not just a group — we are a force.">A <strong>Linarc Team</strong> é um time de <strong>cibersegurança</strong> em busca de um mundo digital mais seguro e justo. Não somos apenas um grupo — somos uma força.</p>
-
-      <p class="about-text">
-        <span data-pt="Fazemos parte do <strong>Societad Group</strong> e somos sua <strong>divisão de elite</strong> — operando nas linhas de frente da segurança ofensiva e defensiva. Dentro da Linarc, existe a divisão pentester" data-en="We are part of <strong>Societad Group</strong> and its <strong>elite division</strong> — operating on the front lines of offensive and defensive security. Within Linarc, there is the pentester division">Fazemos parte do <strong>Societad Group</strong> e somos sua <strong>divisão de elite</strong> — operando nas linhas de frente da segurança ofensiva e defensiva. Dentro da Linarc, existe a divisão pentester</span>
-        <a href="bando" class="bando-link"> <em>BANDO</em></a><span data-pt=" — nossa ala mais afiada." data-en=" — our sharpest unit."> — nossa ala mais afiada.</span>
-      </p>
-    </div>
-
-    <div class="about-badges">
-      <div class="about-badge">
-        <div class="about-badge-icon">🛡️</div>
-        <p class="about-badge-title" data-pt="Cibersegurança" data-en="Cybersecurity">Cibersegurança</p>
-        <p class="about-badge-desc" data-pt="Proteção ativa, análise de ameaças e resposta a incidentes." data-en="Active protection, threat analysis and incident response.">Proteção ativa, análise de ameaças e resposta a incidentes.</p>
-      </div>
-      <div class="about-badge">
-        <div class="about-badge-icon">⚔️</div>
-        <p class="about-badge-title">Pentest — <em style="text-decoration:overline;">BANDO</em></p>
-        <p class="about-badge-desc" data-pt="Nossa divisão de testes de invasão. Os melhores do grupo." data-en="Our penetration testing division. The best of the group.">Nossa divisão de testes de invasão. Os melhores do grupo.</p>
-      </div>
-      <div class="about-badge">
-        <div class="about-badge-icon">🌐</div>
-        <p class="about-badge-title">Societad Group</p>
-        <p class="about-badge-desc" data-pt="Parte de um ecossistema maior. Uma rede de times unidos por um propósito." data-en="Part of a larger ecosystem. A network of teams united by purpose.">Parte de um ecossistema maior. Uma rede de times unidos por um propósito.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <p data-pt="© 2026 Linarc Team · Societad Group — Todos os direitos reservados." data-en="© 2026 Linarc Team · Societad Group — All rights reserved.">© 2026 Linarc Team · Societad Group — Todos os direitos reservados.</p>
-</footer>
-
-<script>
-  function setLang(lang) {
-    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
-    document.querySelectorAll('[data-' + lang + ']').forEach(el => {
-      el.innerHTML = el.getAttribute('data-' + lang);
-    });
-    document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
-    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-  }
-
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.news-card, .product-card, .about-badge').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity .5s, transform .5s, box-shadow .2s';
-    observer.observe(el);
-  });
-</script>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <div class="grain" aria-hidden="true"></div>
+  <nav class="nav" aria-label="Navegação principal">
+    <a class="brand" href="#inicio">LINARC<i>.</i></a>
+    <ul class="nav-links"><li><a href="#manifesto">Manifesto</a></li><li><a href="#pessoas">Pessoas</a></li><li><a href="#tools">Tools</a></li></ul>
+    <a class="nav-cta" href="https://discord.gg/uQujud3BDF" target="_blank" rel="noopener noreferrer">Entrar em contato ↗</a>
+  </nav>
+  <main>
+    <section class="hero" id="inicio"><div class="wrap hero-content">
+      <p class="eyebrow">Comunidade hacktivista independente</p>
+      <h1>Tecnologia livre.<br><span>Ideias compartilhadas.</span></h1>
+      <p class="hero-copy">Compartilhamos conhecimento, defendemos a privacidade e acompanhamos com atenção as decisões do governo sobre a internet.</p>
+      <div class="hero-actions"><a class="button" href="#manifesto">Conheça a comunidade <span>↓</span></a><a class="button ghost" href="#tools">Explorar ferramentas <span>↗</span></a></div>
+    </div><span class="hero-index">01 — 04</span><a class="scroll-label" href="#manifesto"><span></span> Desça para conhecer</a></section>
+    <section class="section" id="manifesto"><div class="wrap"><div class="section-head reveal"><div><p class="kicker">01 / Manifesto</p><h2>Curiosidade,<br>compartilhada.</h2></div><p class="section-intro">A cultura hacktivista começa com curiosidade e colaboração. Exploramos como a tecnologia funciona e defendemos uma internet aberta, com respeito à privacidade.</p></div>
+      <div class="manifesto reveal"><p class="manifesto-statement">Conhecimento cresce<br><span>quando é compartilhado.</span></p><div class="manifesto-body"><p>Somos membros interessados em tecnologia, segurança digital e privacidade. Compartilhamos o que aprendemos para vocês serem um de nós. Todos somos Linarc.</p></div></div>
+      <div class="divider-label"><span></span><span></span></div>
+    </div></section>
+    <section class="section" id="pessoas"><div class="wrap"><div class="section-head reveal"><div><p class="kicker">02 / Pessoas</p><h2>A comunidade é feita<br>por pessoas.</h2></div><p class="section-intro">Conheça nossos membros oficiais</p></div>
+      <div class="people-grid stagger"><a class="person reveal" style="--i:0" href="/lua/"><div class="person-top"><span class="person-number">MEMBRO 001</span><span class="person-mark">↗</span></div><h3>LUA</h3><p>Integrante Linarc Team</p><span class="person-link">Conhecer perfil <span>↗</span></span></a><a class="person reveal" style="--i:1" href="/royal/"><div class="person-top"><span class="person-number">MEMBRO 002</span><span class="person-mark">↗</span></div><h3>ROYAL</h3><p>Integrante Linarc Team</p><span class="person-link">Conhecer perfil <span>↗</span></span></a><a class="person reveal" style="--i:2" href="/will/"><div class="person-top"><span class="person-number">LINARC TEAM</span><span class="person-mark">↗</span></div><h3>WILL</h3><p>Integrante Linarc Team</p><span class="person-link">Conhecer perfil <span>↗</span></span></a><a class="person reveal" style="--i:3" href="/stn/"><div class="person-top"><span class="person-number">LINARC TEAM</span><span class="person-mark">↗</span></div><h3>STN</h3><p>Integrante Linarc Team</p><span class="person-link">Conhecer perfil <span>↗</span></span></a><a class="person reveal" style="--i:4" href="/vitor/"><div class="person-top"><span class="person-number">LINARC TEAM</span><span class="person-mark">↗</span></div><h3>VITOR</h3><p>Integrante Linarc Team</p><span class="person-link">Conhecer perfil <span>↗</span></span></a></div>
+    </div></section>
+    <section class="section" id="tools"><div class="wrap"><div class="section-head reveal"><div><p class="kicker">03 / Tools</p><h2>Ferramentas para<br>explorar.</h2></div><p class="section-intro">Links e serviços para descobrir junto com a comunidade.</p></div>
+      <div class="tools-grid stagger"><a class="tool reveal" style="--i:0" href="https://manddy.site" target="_blank" rel="noopener noreferrer"><div class="tool-top"><span>01 — FERRAMENTA</span><span class="tool-icon">✳</span></div><div><h3>Manddy</h3><p>Visite o Manddy.</p></div><div class="tool-bottom"><span>manddy.site</span><span>↗</span></div></a><a class="tool reveal" style="--i:1" href="https://societad.shop/geolocalize" target="_blank" rel="noopener noreferrer"><div class="tool-top"><span>02 — FERRAMENTA</span><span class="tool-icon">⌖</span></div><div><h3>Geolocalize</h3><p>Conheça o Geolocalize da Societad.</p></div><div class="tool-bottom"><span>societad.shop/geolocalize</span><span>↗</span></div></a></div>
+    </div></section>
+    <section class="closing wrap reveal"><div><p class="kicker">04 / Vamos conversar</p><h2>Tecnologia fica melhor<br><span>quando é compartilhada.</span></h2></div><div class="closing-side">Venha nos apoiar, seja contra a vigilância.<br><a class="button" href="https://discord.gg/uQujud3BDF" target="_blank" rel="noopener noreferrer">Conheça a equipe <span>↗</span></a></div></section>
+  </main>
+  <footer><span>Tecnologia, privacidade e comunidade.</span><a href="#inicio">Voltar ao topo ↑</a></footer>
+  <script src="/site.js" defer></script>
+  <script src="/site-protection.js" defer></script>
 </body>
 </html>

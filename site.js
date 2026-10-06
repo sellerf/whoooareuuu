@@ -1,0 +1,12 @@
+const nav=document.querySelector('.nav');
+    const onScroll=()=>nav.classList.toggle('scrolled',window.scrollY>24);
+    onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+    const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.15});
+    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+    const sections=[...document.querySelectorAll('main section[id]')];
+    const navObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){document.querySelectorAll('.nav-links a').forEach(link=>link.classList.toggle('active',link.hash==='#'+entry.target.id))}}),{rootMargin:'-35% 0px -55% 0px'});
+    sections.forEach(section=>navObserver.observe(section));
+      const progressBar=document.querySelector('.scroll-progress span');
+    let progressFrame=false;
+    const updateProgress=()=>{if(progressFrame)return;progressFrame=true;requestAnimationFrame(()=>{const max=document.documentElement.scrollHeight-window.innerHeight;progressBar.style.transform=`scaleX(${max>0?window.scrollY/max:0})`;progressFrame=false})};
+    updateProgress();window.addEventListener('scroll',updateProgress,{passive:true});window.addEventListener('resize',updateProgress);

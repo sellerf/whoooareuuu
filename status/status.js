@@ -1,6 +1,6 @@
 const services = [
   { id: 'main', name: 'Linarc Team' },
-  { id: 'panel', name: 'Painel' },
+  { id: 'panel', name: 'Manddy' },
   { id: 'geo', name: 'Geolocalize' },
   { id: 'societad', name: 'societad.shop' }
 ];

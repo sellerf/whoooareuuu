@@ -25,22 +25,6 @@
     <section class="services" id="services" aria-label="Status dos serviços"></section>
     <footer class="bottom"><div class="refresh" id="refresh"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9a7 7 0 0 1 11.7-2L20 12M4 12l2.7 5a7 7 0 0 0 11.7-2"/></svg><span id="checked">Iniciando verificações</span></div></footer>
   </main>
-  <script>
-    const services=[
-      {id:'main',name:'Linarc Team',url:'https://linarcteam.site/',kind:'remote'},
-      {id:'panel',name:'Painel',url:'https://manddy.site/',kind:'remote'},
-      {id:'geo',name:'Geolocalize',url:'https://societad.shop/geolocalize/',kind:'remote'},
-      {id:'societad',name:'societad.shop',url:'/',kind:'local'}
-    ];
-    const KEY='linarc-status-history-v1', INTERVAL=30000, DAYS=30;
-    const history=JSON.parse(localStorage.getItem(KEY)||'{}');
-    const dayKey=()=>new Date().toISOString().slice(0,10);
-    function loadHistory(){for(const s of services){history[s.id]??={};for(let i=DAYS-1;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const key=d.toISOString().slice(0,10);history[s.id][key]??='unknown'}}}
-    function save(){localStorage.setItem(KEY,JSON.stringify(history))}
-    function render(){document.querySelector('#services').innerHTML=services.map(s=>{const days=history[s.id];return `<article class="service wait" id="service-${s.id}"><div class="service-head"><div class="service-name">${s.name}</div><div class="service-state"><i class="dot"></i><span class="state">AGUARDANDO</span></div></div><div class="service-url">${s.id==='societad'?'societad.shop':' '+s.url.replace('https://','').replace(/\/$/,'')}</div><div class="uptime">${Object.entries(days).slice(-30).map(([date,state],i)=>`<span class="${state==='down'?'out':state==='unknown'?'unknown':''} ${i===29?'today':''}" title="${date}: ${state==='up'?'Ativo':state==='down'?'Inativo':'Sem dados'}"></span>`).join('')}</div><div class="uptime-labels"><span>30 DIAS ATRÁS</span><span>HOJE</span></div></article>`}).join('')}
-    async function check(s){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),9000);try{if(s.kind==='local'){const r=await fetch('/?status-check='+Date.now(),{cache:'no-store',signal:controller.signal});if(!r.ok)return false;const html=await r.text();return !/A QUALQUER MOMENTO/i.test(html)}const r=await fetch(s.url,{mode:'no-cors',cache:'no-store',signal:controller.signal});return r.type==='opaque'||r.ok}catch{return false}finally{clearTimeout(timer)}}
-    async function runChecks(){const refresh=document.querySelector('#refresh');refresh.classList.add('checking');const results=await Promise.all(services.map(async s=>[s,await check(s)]));let down=0;for(const [s,up] of results){const card=document.querySelector('#service-'+s.id),state=up?'up':'down';if(!up)down++;card.classList.toggle('down',!up);card.classList.remove('wait');card.querySelector('.state').textContent=up?'OPERACIONAL':s.id==='societad'?'INATIVO':'FORA DO AR';const dates=history[s.id],today=dayKey();dates[today]=state;const bar=card.querySelector('.uptime span.today');bar?.classList.toggle('out',!up);bar?.classList.remove('unknown');bar.title=`${today}: ${up?'Ativo':'Inativo'}`}save();document.querySelector('#summary').innerHTML=down?`ATENÇÃO · ${down} SERVIÇO${down>1?'S':''}<br><strong style="color:#ff7185">${down===services.length?'indisponíveis':'com instabilidade'}</strong>`:`TODOS OS SISTEMAS<br><strong>operacionais</strong>`;document.querySelector('#checked').textContent='Última verificação: '+new Intl.DateTimeFormat('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(new Date());refresh.classList.remove('checking')}
-    loadHistory();render();runChecks();setInterval(runChecks,INTERVAL);
-  </script>
+  <script src="/status/status.js"></script>
 </body>
 </html>

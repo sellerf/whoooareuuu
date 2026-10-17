@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,56 +11,579 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{color-scheme:dark;--bg:#08090b;--panel:#101216;--text:#f4f5f2;--muted:#8a8d94;--line:rgba(255,255,255,.11);--accent:#ff3b4f;--mono:'DM Mono',monospace;--sans:'Manrope',sans-serif}
-    *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;scroll-padding-top:88px}body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden}a{color:inherit;text-decoration:none}::selection{background:var(--accent);color:#150609}
-    .grain{position:fixed;inset:0;pointer-events:none;z-index:4;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E")}
-    .nav{position:fixed;z-index:10;inset:0 0 auto;height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 6vw;border-bottom:1px solid transparent;transition:.3s;background:linear-gradient(180deg,rgba(8,9,11,.88),transparent)}.nav.scrolled{height:66px;background:rgba(8,9,11,.88);backdrop-filter:blur(18px);border-color:var(--line)}.brand{font-weight:800;letter-spacing:-.06em;font-size:18px}.brand i{font-style:normal;color:var(--accent)}.nav-links{display:flex;align-items:center;gap:32px;list-style:none}.nav-links a{font:11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#a5a7aa;transition:color .2s}.nav-links a:hover,.nav-links a.active{color:var(--accent)}.nav-cta{border:1px solid var(--line);padding:11px 16px;border-radius:99px;font:10px var(--mono);text-transform:uppercase;letter-spacing:.08em;transition:.2s}.nav-cta:hover{background:var(--accent);border-color:var(--accent);color:#150609}
-    .wrap{width:min(1120px,88vw);margin:auto}.hero{background:radial-gradient(ellipse 65% 55% at 78% 52%,rgba(255,59,79,.10),transparent 72%);min-height:100svh;position:relative;display:flex;align-items:center;overflow:hidden;padding:130px 0 100px}.hero::before{content:'';position:absolute;width:56vw;height:56vw;right:-15vw;top:4%;border:1px solid rgba(255,59,79,.12);border-radius:50%;box-shadow:0 0 0 70px rgba(255,59,79,.018),0 0 0 140px rgba(255,59,79,.013);animation:orbit 28s linear infinite}.hero::after{content:'';position:absolute;width:36vw;height:36vw;right:-5vw;top:15%;border:1px solid rgba(255,255,255,.07);border-radius:50%;animation:orbit 20s linear infinite reverse}.hero-content{position:relative;z-index:1;max-width:790px}.eyebrow,.kicker{font:11px var(--mono);letter-spacing:.17em;text-transform:uppercase;color:var(--accent)}.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:28px}.eyebrow::before{content:'';height:1px;width:30px;background:var(--accent)}h1{font-size:clamp(50px,8vw,108px);line-height:.88;letter-spacing:-.095em;font-weight:600;max-width:850px}h1 span{color:var(--accent)}.hero-copy{margin-top:30px;max-width:450px;color:#a2a4a8;font-size:15px;line-height:1.8}.hero-actions{display:flex;align-items:center;gap:14px;margin-top:34px}.button{display:inline-flex;align-items:center;gap:20px;padding:15px 19px;border:1px solid var(--accent);border-radius:2px;background:var(--accent);color:#150609;font:11px var(--mono);letter-spacing:.06em;text-transform:uppercase;transition:transform .25s,background .25s}.button:hover{transform:translateY(-3px);background:#ffb0b8}.button.ghost{background:transparent;color:var(--text);border-color:var(--line)}.button.ghost:hover{border-color:var(--accent);color:var(--accent)}.hero-index{position:absolute;right:6vw;bottom:12%;font:10px var(--mono);color:#777;letter-spacing:.1em}.scroll-label{position:absolute;left:6vw;bottom:42px;display:flex;align-items:center;gap:12px;color:#777;font:10px var(--mono);letter-spacing:.12em;text-transform:uppercase}.scroll-label span{display:block;width:44px;height:1px;background:var(--accent);transform-origin:left;animation:line 1.7s ease-in-out infinite}
-    .section{padding:130px 0;border-top:1px solid var(--line);position:relative}.section-head{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:54px}.section h2{font-size:clamp(40px,7vw,82px);line-height:.98;letter-spacing:-.075em;font-weight:600;margin-top:18px}.section-intro{max-width:300px;color:var(--muted);font-size:13px;line-height:1.8}.manifesto{display:grid;grid-template-columns:1fr 1.2fr;gap:10vw;align-items:start}.manifesto-statement{font-size:clamp(29px,4.3vw,54px);line-height:1.12;letter-spacing:-.06em}.manifesto-statement span{color:var(--accent)}.manifesto-body{padding-top:7px;color:var(--muted);font-size:14px;line-height:1.95;max-width:460px}.manifesto-body p+p{margin-top:20px}.divider-label{margin-top:52px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:#777;font:10px var(--mono);letter-spacing:.11em;text-transform:uppercase}
-    .people-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.person{min-height:310px;padding:30px;position:relative;overflow:hidden;border:1px solid var(--line);background:linear-gradient(140deg,#14171a,#0c0d0f);transition:transform .35s,border-color .35s}.person:hover{transform:translateY(-6px);border-color:rgba(255,59,79,.5)}.person::after{content:'';position:absolute;width:210px;height:210px;border:1px solid rgba(255,59,79,.14);border-radius:50%;right:-80px;bottom:-100px;transition:transform .5s}.person:hover::after{transform:scale(1.25)}.person-top{display:flex;justify-content:space-between;align-items:center}.person-number{font:10px var(--mono);color:#777}.person-mark{font-size:38px;color:var(--accent);font-weight:400;line-height:1}.person h3{font-size:42px;letter-spacing:-.07em;margin-top:78px}.person p{font-size:12px;color:var(--muted);margin-top:5px}.person-link{display:inline-flex;gap:15px;margin-top:22px;font:10px var(--mono);text-transform:uppercase;letter-spacing:.08em}.person-link span{color:var(--accent);transition:transform .2s}.person:hover .person-link span{transform:translate(4px,-4px)}
-    .tools-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.tool{position:relative;min-height:280px;padding:28px;border:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:.35s}.tool:hover{border-color:var(--accent);background:#181013}.tool::before{content:'';position:absolute;width:160px;height:160px;border-radius:50%;right:-60px;top:-70px;background:radial-gradient(circle,rgba(255,59,79,.16),transparent 70%);transition:transform .5s}.tool:hover::before{transform:scale(1.5)}.tool-top{display:flex;justify-content:space-between;color:#777;font:10px var(--mono);letter-spacing:.1em}.tool-icon{color:var(--accent);font-size:19px}.tool h3{font-size:34px;letter-spacing:-.06em}.tool p{max-width:380px;color:var(--muted);font-size:12px;line-height:1.75;margin-top:8px}.tool-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:34px;font:10px var(--mono);text-transform:uppercase;letter-spacing:.09em}.tool-bottom span:last-child{color:var(--accent);font-size:18px;transition:transform .2s}.tool:hover .tool-bottom span:last-child{transform:translate(4px,-4px)}
-    .closing{padding:100px 0 120px;border-top:1px solid var(--line);display:flex;align-items:end;justify-content:space-between;gap:32px}.closing h2{font-size:clamp(42px,8vw,90px);line-height:.94;letter-spacing:-.08em}.closing h2 span{color:var(--accent)}.closing-side{max-width:250px;color:var(--muted);font-size:12px;line-height:1.8}.closing-side .button{margin-top:20px}footer{border-top:1px solid var(--line);padding:25px 6vw;display:flex;justify-content:space-between;color:#6d7074;font:9px var(--mono);letter-spacing:.09em;text-transform:uppercase}.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}.reveal.visible{opacity:1;transform:none}.stagger>*{transition-delay:calc(var(--i,0)*100ms)}
-    @keyframes orbit{to{transform:rotate(360deg)}}@keyframes line{0%,100%{transform:scaleX(.4);opacity:.5}50%{transform:scaleX(1);opacity:1}}
-    @media(max-width:700px){.nav{padding:0 6vw}.nav-links{gap:14px}.nav-links li:nth-child(2){display:none}.nav-cta{display:none}.hero{min-height:92svh}.hero::before{width:90vw;height:90vw;right:-44vw;top:12%}.hero::after{width:62vw;height:62vw;right:-28vw;top:25%}.hero-index{right:6vw;bottom:8%}.section{padding:92px 0}.section-head{display:block}.section-intro{margin-top:20px}.manifesto{grid-template-columns:1fr;gap:28px}.people-grid,.tools-grid{grid-template-columns:1fr}.person{min-height:270px}.person h3{margin-top:55px}.tool{min-height:240px}.closing{display:block}.closing-side{margin-top:28px}footer{gap:20px;flex-wrap:wrap}}
-    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
-      /* Scroll polish */
-    html{scrollbar-width:thin;scrollbar-color:var(--accent) #0a0a0c;scroll-behavior:smooth;scroll-padding-top:88px;overscroll-behavior-y:contain}
-    ::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#0a0a0c}::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#ff6878,var(--accent));border:3px solid #0a0a0c;border-radius:99px}::-webkit-scrollbar-thumb:hover{background:#ff9aa4}
-    .scroll-progress{position:fixed;z-index:20;inset:0 auto auto 0;width:100%;height:3px;pointer-events:none;background:rgba(255,59,79,.12)}.scroll-progress span{display:block;width:100%;height:100%;background:var(--accent);transform:scaleX(0);transform-origin:left center;will-change:transform;box-shadow:0 0 14px rgba(255,59,79,.6)}
-    .reveal{transition:opacity .9s cubic-bezier(.2,.75,.2,1),transform .9s cubic-bezier(.2,.75,.2,1);will-change:opacity,transform}.reveal.visible{will-change:auto}
-    .hero-content,.hero .content{animation:hero-arrive 1s cubic-bezier(.16,1,.3,1) both}.hero .hero-content>*{animation:hero-arrive .9s cubic-bezier(.16,1,.3,1) both}.hero .hero-content>*:nth-child(2){animation-delay:.1s}.hero .hero-content>*:nth-child(3){animation-delay:.2s}.hero .hero-content>*:nth-child(4){animation-delay:.3s}
-    @keyframes hero-arrive{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}::-webkit-scrollbar-thumb{background:var(--accent)}.hero-content,.hero .content,.hero .hero-content>*{animation:none!important}}
+    :root{
+      color-scheme:dark;
+      --bg:#090a0c;
+      --panel:rgba(255,255,255,.035);
+      --panel-hover:rgba(255,255,255,.055);
+      --text:#f5f6f3;
+      --muted:#94979e;
+      --line:rgba(255,255,255,.08);
+      --accent:#ff3b4f;
+      --accent-soft:rgba(255,59,79,.14);
+      --mono:'DM Mono',monospace;
+      --sans:'Manrope',sans-serif;
+      --ease:cubic-bezier(.22,1,.36,1);
+      --rail:92px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      background:
+        radial-gradient(ellipse 70% 55% at 18% 20%,rgba(255,59,79,.09),transparent 60%),
+        radial-gradient(ellipse 50% 45% at 88% 70%,rgba(255,255,255,.03),transparent 55%),
+        var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+      overflow:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    button{font:inherit;color:inherit}
+    ::selection{background:var(--accent);color:#150609}
+
+    .grain{
+      position:fixed;inset:0;pointer-events:none;z-index:5;opacity:.04;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+    }
+    .orb{
+      position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(40px);
+      animation:drift 18s ease-in-out infinite alternate;
+    }
+    .orb-a{width:42vw;height:42vw;left:-12vw;top:-10vh;background:rgba(255,59,79,.12)}
+    .orb-b{width:28vw;height:28vw;right:-8vw;bottom:10vh;background:rgba(255,255,255,.04);animation-duration:24s;animation-delay:-6s}
+    .orb-c{width:18vw;height:18vw;left:40vw;bottom:-6vh;background:rgba(255,59,79,.06);animation-duration:20s;animation-delay:-3s}
+
+    .app{
+      position:relative;z-index:1;
+      height:100svh;
+      display:grid;
+      grid-template-columns:var(--rail) 1fr;
+    }
+
+    /* —— Side rail —— */
+    .rail{
+      display:flex;flex-direction:column;align-items:center;
+      padding:20px 0 18px;
+      border-right:1px solid var(--line);
+      background:rgba(8,9,11,.45);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+    }
+    .brand{
+      width:54px;height:54px;border-radius:18px;
+      display:grid;place-items:center;
+      margin-bottom:26px;
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--line);
+      overflow:hidden;
+      position:relative;
+      transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .3s;
+      animation:pop-in .75s var(--ease) both;
+    }
+    .brand::after{
+      content:'';position:absolute;inset:-40%;
+      background:radial-gradient(circle,rgba(255,59,79,.25),transparent 55%);
+      opacity:0;transition:opacity .35s;
+    }
+    .brand img{
+      width:78%;height:78%;object-fit:contain;
+      position:relative;z-index:1;
+      animation:tux-float 3.6s ease-in-out infinite;
+      filter:drop-shadow(0 4px 10px rgba(0,0,0,.35));
+      transition:transform .4s var(--ease);
+    }
+    .brand:hover{
+      transform:translateY(-3px) scale(1.05);
+      border-color:rgba(255,59,79,.4);
+      box-shadow:0 14px 32px rgba(255,59,79,.2);
+    }
+    .brand:hover::after{opacity:1}
+    .brand:hover img{transform:scale(1.08);animation-play-state:paused}
+
+    .rail-nav{
+      display:flex;flex-direction:column;gap:10px;flex:1;
+      width:100%;align-items:center;
+      position:relative;
+    }
+    .rail-btn{
+      appearance:none;border:0;cursor:pointer;
+      width:56px;height:56px;border-radius:18px;
+      background:transparent;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+      color:var(--muted);
+      transition:color .3s,background .3s,transform .35s var(--ease),box-shadow .35s;
+      position:relative;
+      animation:pop-in .7s var(--ease) both;
+    }
+    .rail-btn:nth-child(1){animation-delay:.08s}
+    .rail-btn:nth-child(2){animation-delay:.14s}
+    .rail-btn:nth-child(3){animation-delay:.2s}
+    .rail-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s var(--ease)}
+    .rail-btn span{
+      font:8px var(--mono);letter-spacing:.06em;text-transform:uppercase;
+      opacity:.85;
+    }
+    .rail-btn:hover{
+      color:var(--text);
+      background:rgba(255,255,255,.05);
+      transform:translateY(-2px);
+    }
+    .rail-btn:hover svg{transform:scale(1.08)}
+    .rail-btn[aria-selected="true"]{
+      color:#fff;
+      background:linear-gradient(160deg,rgba(255,59,79,.95),#d9263a);
+      box-shadow:0 10px 28px rgba(255,59,79,.28);
+      animation:btn-glow 2.8s ease-in-out infinite;
+    }
+    .rail-btn[aria-selected="true"] span{opacity:1}
+    .rail-btn[aria-selected="true"] svg{transform:scale(1.05)}
+
+    .rail-foot{margin-top:auto;animation:pop-in .7s var(--ease) .28s both}
+    .discord-btn{
+      width:44px;height:44px;border-radius:14px;
+      display:grid;place-items:center;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      color:var(--muted);
+      transition:all .35s var(--ease);
+    }
+    .discord-btn:hover{
+      color:#fff;border-color:rgba(255,59,79,.45);
+      background:var(--accent-soft);
+      transform:translateY(-2px) rotate(-4deg);
+      box-shadow:0 10px 24px rgba(255,59,79,.15);
+    }
+    .discord-btn svg{width:18px;height:18px}
+
+    /* —— Stage —— */
+    .stage{
+      min-width:0;min-height:0;
+      display:grid;
+      padding:clamp(20px,3.5vh,40px) clamp(22px,4vw,56px);
+      position:relative;
+    }
+    .view{
+      grid-area:1/1;
+      min-height:0;
+      display:none;
+      flex-direction:column;
+      opacity:0;
+      pointer-events:none;
+    }
+    .view.active{
+      display:flex;
+      opacity:1;
+      pointer-events:auto;
+      animation:view-in .6s var(--ease) both;
+    }
+    .view.leaving{
+      display:flex;
+      animation:view-out .28s ease forwards;
+      pointer-events:none;
+    }
+
+    .kicker{
+      display:inline-flex;align-items:center;gap:10px;
+      font:11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+      margin-bottom:18px;
+      animation:fade-up .7s var(--ease) both;
+    }
+    .kicker::before{content:'';width:22px;height:1px;background:var(--accent);transform-origin:left;animation:grow-line .8s var(--ease) .1s both}
+    .view h1{
+      font-size:clamp(40px,6.5vw,78px);
+      line-height:.9;letter-spacing:-.09em;font-weight:600;
+      max-width:12ch;
+      animation:fade-up .75s var(--ease) .08s both;
+    }
+    .view h1 em{font-style:normal;color:var(--accent)}
+    .view h2{
+      font-size:clamp(28px,4vw,46px);
+      line-height:1;letter-spacing:-.07em;font-weight:600;
+      animation:fade-up .65s var(--ease) .05s both;
+    }
+    .lede{
+      margin-top:18px;max-width:420px;
+      color:var(--muted);font-size:15px;line-height:1.75;
+      animation:fade-up .75s var(--ease) .14s both;
+    }
+    .panel-head{
+      display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+      margin-bottom:28px;flex-wrap:wrap;
+    }
+    .panel-head p{max-width:240px;color:var(--muted);font-size:13px;line-height:1.65;animation:fade-up .65s var(--ease) .1s both}
+
+    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;animation:fade-up .75s var(--ease) .2s both}
+    .btn{
+      display:inline-flex;align-items:center;gap:12px;
+      padding:14px 20px;border-radius:999px;
+      font:11px var(--mono);letter-spacing:.08em;text-transform:uppercase;
+      border:1px solid transparent;
+      transition:transform .35s var(--ease),background .25s,border-color .25s,box-shadow .35s,color .25s;
+      position:relative;overflow:hidden;
+    }
+    .btn::after{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(120deg,transparent 20%,rgba(255,255,255,.2) 45%,transparent 70%);
+      transform:translateX(-120%);
+      transition:transform .6s var(--ease);
+    }
+    .btn:hover::after{transform:translateX(120%)}
+    .btn:hover{transform:translateY(-3px)}
+    .btn:active{transform:translateY(-1px) scale(.98)}
+    .btn-primary{
+      background:linear-gradient(135deg,#ff5a6b,var(--accent));
+      color:#150609;
+      box-shadow:0 12px 30px rgba(255,59,79,.22);
+    }
+    .btn-primary:hover{box-shadow:0 16px 36px rgba(255,59,79,.35)}
+    .btn-ghost{
+      background:rgba(255,255,255,.03);
+      border-color:var(--line);
+      color:var(--text);
+    }
+    .btn-ghost:hover{
+      border-color:rgba(255,59,79,.45);
+      background:var(--accent-soft);
+      color:#fff;
+    }
+    .btn .arrow{transition:transform .35s var(--ease)}
+    .btn:hover .arrow{transform:translate(4px,-3px)}
+
+    .home-layout{
+      flex:1;min-height:0;
+      display:grid;align-content:center;
+      gap:clamp(24px,4vh,40px);
+    }
+    .scroll-area{
+      min-height:0;flex:1;overflow:auto;padding-right:4px;
+      scrollbar-width:thin;scrollbar-color:rgba(255,59,79,.55) transparent;
+    }
+    .scroll-area::-webkit-scrollbar{width:6px}
+    .scroll-area::-webkit-scrollbar-thumb{background:rgba(255,59,79,.45);border-radius:99px}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+      gap:14px;
+    }
+
+    .card{
+      position:relative;overflow:hidden;
+      min-height:150px;padding:22px;
+      border-radius:22px;
+      border:1px solid var(--line);
+      background:var(--panel);
+      display:flex;flex-direction:column;justify-content:space-between;
+      transition:transform .45s var(--ease),border-color .3s,background .3s,box-shadow .45s;
+      animation:card-in .7s var(--ease) both;
+      animation-delay:calc(var(--i,0)*.07s + .05s);
+    }
+    .card:hover{
+      transform:translateY(-8px) scale(1.01);
+      border-color:rgba(255,59,79,.42);
+      background:var(--panel-hover);
+      box-shadow:0 22px 44px rgba(0,0,0,.3);
+    }
+    .card::before{
+      content:'';position:absolute;width:160px;height:160px;border-radius:50%;
+      right:-50px;bottom:-70px;
+      background:radial-gradient(circle,rgba(255,59,79,.18),transparent 68%);
+      opacity:.7;transition:transform .55s var(--ease),opacity .3s;
+    }
+    .card::after{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(125deg,transparent 35%,rgba(255,255,255,.05) 50%,transparent 65%);
+      transform:translateX(-120%);
+      transition:transform .7s var(--ease);
+    }
+    .card:hover::before{transform:scale(1.4);opacity:1}
+    .card:hover::after{transform:translateX(120%)}
+    .card-top{
+      display:flex;justify-content:space-between;align-items:center;
+      font:10px var(--mono);letter-spacing:.1em;color:#7a7d84;
+      position:relative;z-index:1;
+    }
+    .card-mark{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      background:rgba(255,59,79,.12);
+      color:var(--accent);
+      font-size:14px;
+      transition:transform .4s var(--ease),background .25s;
+    }
+    .card:hover .card-mark{transform:rotate(-10deg) scale(1.1);background:rgba(255,59,79,.24)}
+    .card h3{
+      font-size:26px;letter-spacing:-.06em;position:relative;z-index:1;margin-top:28px;
+    }
+    .card p{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.55;position:relative;z-index:1}
+    .card-foot{
+      display:flex;justify-content:space-between;align-items:center;
+      margin-top:18px;
+      font:10px var(--mono);letter-spacing:.08em;text-transform:uppercase;
+      color:#8a8d94;position:relative;z-index:1;
+    }
+    .card-foot .go{
+      color:var(--accent);font-size:15px;
+      transition:transform .35s var(--ease);
+    }
+    .card:hover .card-foot .go{transform:translate(4px,-3px)}
+
+    .card.is-locked{cursor:default}
+    .card.is-locked:hover{
+      transform:none;border-color:var(--line);background:var(--panel);box-shadow:none;
+    }
+    .card.is-locked:hover::before,.card.is-locked:hover::after{transform:none}
+    .card.is-locked .card-mark{transform:none}
+    .card.is-locked .go{color:#666}
+    .card.is-locked:hover .card-foot .go{transform:none}
+    #varch-link.is-soon{color:var(--accent)}
+
+    .stage-foot{
+      margin-top:18px;padding-top:14px;border-top:1px solid var(--line);
+      display:flex;justify-content:space-between;gap:16px;
+      color:#6a6d72;font:9px var(--mono);letter-spacing:.1em;text-transform:uppercase;
+      animation:fade-up .6s var(--ease) .2s both;
+    }
+
+    @keyframes drift{to{transform:translate(4vw,3vh) scale(1.08)}}
+    @keyframes tux-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+    @keyframes pop-in{from{opacity:0;transform:translateY(12px) scale(.9)}to{opacity:1;transform:none}}
+    @keyframes view-in{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+    @keyframes view-out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-10px) scale(.985)}}
+    @keyframes fade-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+    @keyframes card-in{from{opacity:0;transform:translateY(22px) scale(.96)}to{opacity:1;transform:none}}
+    @keyframes grow-line{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+    @keyframes btn-glow{0%,100%{box-shadow:0 10px 28px rgba(255,59,79,.24)}50%{box-shadow:0 12px 34px rgba(255,59,79,.4)}}
+
+    @media(max-width:760px){
+      :root{--rail:74px}
+      body{overflow:auto}
+      .app{height:auto;min-height:100svh}
+      .rail{padding:14px 0}
+      .brand{width:46px;height:46px;border-radius:15px;margin-bottom:18px}
+      .rail-btn{width:48px;height:48px;border-radius:14px}
+      .rail-btn span{display:none}
+      .stage{padding:22px 18px 28px}
+      .view h1{max-width:none}
+      .card{min-height:136px}
+      .orb{display:none}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+      .view.active,.card,.brand,.rail-btn,.kicker,.lede,.actions,.view h1,.view h2{animation:none!important;opacity:1;transform:none}
+      .brand img{animation:none!important}
+    }
   </style>
+  <script src="/vercel-analytics.js" defer></script>
 </head>
 <body>
-  <div class="scroll-progress" aria-hidden="true"><span></span></div>
   <div class="grain" aria-hidden="true"></div>
-  <nav class="nav" aria-label="Navegação principal">
-    <a class="brand" href="#inicio">LINARC<i>.</i></a>
-    <ul class="nav-links"><li><a href="#manifesto">Manifesto</a></li><li><a href="#pessoas">Pessoas</a></li><li><a href="#tools">Tools</a></li></ul>
-    <a class="nav-cta" href="https://discord.gg/uQujud3BDF" target="_blank" rel="noopener noreferrer">Entrar em contato ↗</a>
-  </nav>
-  <main>
-    <section class="hero" id="inicio"><div class="wrap hero-content">
-      <h1>Siga o Bando.<br><span>Siga o Futuro.</span></h1>
-      <p class="hero-copy">Não siga eles. Siga a Linarc Team. Nós somos o Futuro.</p>
-      <div class="hero-actions"><a class="button" href="#manifesto">Conheça a comunidade <span>↓</span></a><a class="button ghost" href="#tools">Explorar ferramentas <span>↗</span></a></div>
-    </div><span class="hero-index">01 — 04</span><a class="scroll-label" href="#manifesto"><span></span> Desça para conhecer</a></section>
-    <section class="section" id="manifesto"><div class="wrap"><div class="section-head reveal"><div><p class="kicker">01 / Manifesto</p><h2>Curiosidade,<br>compartilhada.</h2></div><p class="section-intro">A cultura hacktivista começa com curiosidade e colaboração. Exploramos como a tecnologia funciona e defendemos uma internet aberta, com respeito à privacidade.</p></div>
-      <div class="manifesto reveal"><p class="manifesto-statement">Conhecimento cresce<br><span>quando é compartilhado.</span></p><div class="manifesto-body"><p>Somos membros interessados em tecnologia, segurança digital e privacidade. Compartilhamos o que aprendemos para vocês serem um de nós. Todos somos Linarc.</p></div></div>
-      <div class="divider-label"><span></span><span></span></div>
-    </div></section>
-    <section class="section" id="pessoas"><div class="wrap"><div class="section-head reveal"><div><p class="kicker">02 / Pessoas</p><h2>A comunidade é feita<br>por pessoas.</h2></div><p class="section-intro">Conheça nossos membros oficiais</p></div>
-      <div class="people-grid stagger"><a class="person reveal" style="--i:0" href="/lua/"><div class="person-top"><span class="person-number">MEMBRO 001</span><span class="person-mark">↗</span></div><h3>LUA</h3><p>Integrante Linarc Team</p><span class="person-link">Conhecer perfil <span>↗</span></span></a><a class="person reveal" style="--i:1" href="/royal/"><div class="person-top"><span class="person-number">MEMBRO 002</span><span class="person-mark">↗</span></div><h3>ROYAL</h3><p>Integrante Linarc Team</p><span class="person-link">Conhecer perfil <span>↗</span></span></a><a class="person reveal" style="--i:2" href="/will/"><div class="person-top"><span class="person-number">LINARC TEAM</span><span class="person-mark">↗</span></div><h3>WILL</h3><p>Integrante Linarc Team</p><span class="person-link">Conhecer perfil <span>↗</span></span></a><a class="person reveal" style="--i:3" href="/stn/"><div class="person-top"><span class="person-number">LINARC TEAM</span><span class="person-mark">↗</span></div><h3>STN</h3><p>Integrante Linarc Team</p><span class="person-link">Conhecer perfil <span>↗</span></span></a><a class="person reveal" style="--i:4" href="/vitor/"><div class="person-top"><span class="person-number">LINARC TEAM</span><span class="person-mark">↗</span></div><h3>VITOR</h3><p>Integrante Linarc Team</p><span class="person-link">Conhecer perfil <span>↗</span></span></a></div>
-    </div></section>
-    <section class="section" id="tools"><div class="wrap"><div class="section-head reveal"><div><p class="kicker">03 / Tools</p><h2>Ferramentas para<br>explorar.</h2></div><p class="section-intro">Links e serviços para descobrir junto com a comunidade.</p></div>
-      <div class="tools-grid stagger"><a class="tool reveal" style="--i:0" href="https://manddy.site" target="_blank" rel="noopener noreferrer"><div class="tool-top"><span>01 — FERRAMENTA</span><span class="tool-icon">✳</span></div><div><h3>Manddy</h3><p>Visite o Manddy.</p></div><div class="tool-bottom"><span>manddy.site</span><span>↗</span></div></a><a class="tool reveal" style="--i:1" href="https://societad.shop/geolocalize" target="_blank" rel="noopener noreferrer"><div class="tool-top"><span>02 — FERRAMENTA</span><span class="tool-icon">⌖</span></div><div><h3>Geolocalize</h3><p>Conheça o Geolocalize da Societad.</p></div><div class="tool-bottom"><span>societad.shop/geolocalize</span><span>↗</span></div></a></div>
-    </div></section>
-    <section class="closing wrap reveal"><div><p class="kicker">04 / Vamos conversar</p><h2>Tecnologia fica melhor<br><span>quando é compartilhada.</span></h2></div><div class="closing-side">Venha nos apoiar, seja contra a vigilância.<br><a class="button" href="https://discord.gg/uQujud3BDF" target="_blank" rel="noopener noreferrer">Conheça a equipe <span>↗</span></a></div></section>
-  </main>
-  <footer><span>Tecnologia, privacidade e comunidade.</span><a href="#inicio">Voltar ao topo ↑</a></footer>
-  <script src="/site.js" defer></script>
+  <div class="orb orb-a" aria-hidden="true"></div>
+  <div class="orb orb-b" aria-hidden="true"></div>
+  <div class="orb orb-c" aria-hidden="true"></div>
+
+  <div class="app">
+    <aside class="rail" aria-label="Navegação">
+      <a class="brand" href="/" title="Linarc Team" data-go="inicio">
+        <img src="/assets/tux.png" alt="Tux" width="42" height="42">
+      </a>
+
+      <nav class="rail-nav" role="tablist" aria-label="Seções">
+        <button class="rail-btn" role="tab" id="tab-inicio" aria-controls="view-inicio" aria-selected="true" type="button" data-view="inicio">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 4l8 7.5"/><path d="M7 10.5V20h10v-9.5"/></svg>
+          <span>Início</span>
+        </button>
+        <button class="rail-btn" role="tab" id="tab-membros" aria-controls="view-membros" aria-selected="false" type="button" data-view="membros">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="16.5" cy="9.5" r="2.4"/><path d="M3.5 19c.8-3.2 2.9-5 5.5-5s4.7 1.8 5.5 5"/><path d="M14 14.2c1.7-.4 3.4.3 4.4 2.3"/></svg>
+          <span>Membros</span>
+        </button>
+        <button class="rail-btn" role="tab" id="tab-ferramentas" aria-controls="view-ferramentas" aria-selected="false" type="button" data-view="ferramentas">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 18.5 9.5"/><path d="M4 20l7.2-7.2"/><path d="M12.8 4.8a3.2 3.2 0 0 1 4.5 4.5L9 17.6 5.2 18.8 6.4 15z"/></svg>
+          <span>Tools</span>
+        </button>
+      </nav>
+
+      <div class="rail-foot">
+        <a class="discord-btn" href="https://discord.gg/uQujud3BDF" target="_blank" rel="noopener noreferrer" title="Discord" aria-label="Entrar no Discord">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.3 5.2A17 17 0 0 0 15 3.7l-.3.6a15 15 0 0 1 3.7 1.8 13.5 13.5 0 0 0-12.8 0A15 15 0 0 1 9.3 4.3L9 3.7a17 17 0 0 0-4.3 1.5C2 9.2 1.3 13 1.6 16.8A17.3 17.3 0 0 0 7 19.4l.9-1.2a11 11 0 0 1-1.5-.7l.3-.3c2.5 1.1 5.2 1.1 7.6 0l.3.3c-.5.3-1 .5-1.5.7l.9 1.2a17.3 17.3 0 0 0 5.4-2.6c.4-4.3-.7-8-2.1-11.6ZM8.7 14.6c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8 1.6.8 1.6 1.8-.7 1.8-1.6 1.8Zm6.6 0c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8 1.6.8 1.6 1.8-.7 1.8-1.6 1.8Z"/></svg>
+        </a>
+      </div>
+    </aside>
+
+    <main class="stage">
+      <section class="view active" id="view-inicio" role="tabpanel" aria-labelledby="tab-inicio">
+        <div class="home-layout">
+          <div>
+            <p class="kicker">Linarc Team</p>
+            <h1>Siga o Bando.<br><em>Siga o Futuro.</em></h1>
+            <p class="lede">Não siga eles. Siga a Linarc Team. Nós somos o Futuro.</p>
+            <div class="actions">
+              <button class="btn btn-primary" type="button" data-go="membros">Conhecer membros <span class="arrow">→</span></button>
+              <button class="btn btn-ghost" type="button" data-go="ferramentas">Explorar ferramentas <span class="arrow">↗</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="stage-foot">
+          <span>Bem-vindo.</span>
+          <span>01 — Início</span>
+        </div>
+      </section>
+
+      <section class="view" id="view-membros" role="tabpanel" aria-labelledby="tab-membros" hidden>
+        <div class="panel-head">
+          <div>
+            <p class="kicker">Comunidade</p>
+            <h2>Membros oficiais.</h2>
+          </div>
+          <p>Conheça as pessoas por trás da Linarc Team.</p>
+        </div>
+        <div class="scroll-area">
+          <div class="grid">
+            <a class="card" style="--i:0" href="/lua/">
+              <div class="card-top"><span>MEMBRO 001</span><span class="card-mark">↗</span></div>
+              <div><h3>LUA</h3><p>Integrante Linarc Team</p></div>
+              <div class="card-foot"><span>Ver perfil</span><span class="go">↗</span></div>
+            </a>
+            <a class="card" style="--i:1" href="/royal/">
+              <div class="card-top"><span>MEMBRO 002</span><span class="card-mark">↗</span></div>
+              <div><h3>ROYAL</h3><p>Integrante Linarc Team</p></div>
+              <div class="card-foot"><span>Ver perfil</span><span class="go">↗</span></div>
+            </a>
+            <a class="card" style="--i:2" href="/will/">
+              <div class="card-top"><span>LINARC TEAM</span><span class="card-mark">↗</span></div>
+              <div><h3>WILL</h3><p>Integrante Linarc Team</p></div>
+              <div class="card-foot"><span>Ver perfil</span><span class="go">↗</span></div>
+            </a>
+            <a class="card" style="--i:3" href="/stn/">
+              <div class="card-top"><span>LINARC TEAM</span><span class="card-mark">↗</span></div>
+              <div><h3>STN</h3><p>Integrante Linarc Team</p></div>
+              <div class="card-foot"><span>Ver perfil</span><span class="go">↗</span></div>
+            </a>
+            <a class="card" style="--i:4" href="/vitor/">
+              <div class="card-top"><span>LINARC TEAM</span><span class="card-mark">↗</span></div>
+              <div><h3>VITOR</h3><p>Integrante Linarc Team</p></div>
+              <div class="card-foot"><span>Ver perfil</span><span class="go">↗</span></div>
+            </a>
+          </div>
+        </div>
+        <div class="stage-foot">
+          <span>Bem-vindo.</span>
+          <span>02 — Membros</span>
+        </div>
+      </section>
+
+      <section class="view" id="view-ferramentas" role="tabpanel" aria-labelledby="tab-ferramentas" hidden>
+        <div class="panel-head">
+          <div>
+            <p class="kicker">Ferramentas</p>
+            <h2>Para explorar.</h2>
+          </div>
+          <p>Links e serviços.</p>
+        </div>
+        <div class="scroll-area">
+          <div class="grid">
+            <a class="card" style="--i:0" href="https://manddy.site" target="_blank" rel="noopener noreferrer">
+              <div class="card-top"><span>01 — TOOL</span><span class="card-mark">✳</span></div>
+              <div><h3>Manddy</h3><p>Visite o Manddy.</p></div>
+              <div class="card-foot"><span>manddy.site</span><span class="go">↗</span></div>
+            </a>
+            <a class="card" style="--i:1" href="https://societad.shop/geolocalize" target="_blank" rel="noopener noreferrer">
+              <div class="card-top"><span>02 — TOOL</span><span class="card-mark">⌖</span></div>
+              <div><h3>Geolocalize</h3><p>Conheça o Geolocalize da Societad.</p></div>
+              <div class="card-foot"><span>societad.shop</span><span class="go">↗</span></div>
+            </a>
+            <a class="card" style="--i:2" href="/radicalize">
+              <div class="card-top"><span>03 — TOOL</span><span class="card-mark">⚠</span></div>
+              <div><h3>Radicalize</h3><p>Portal de denúncias da Linarc Team.</p></div>
+              <div class="card-foot"><span>/radicalize</span><span class="go">↗</span></div>
+            </a>
+            <a class="card" style="--i:3" id="tool-varch" href="/varch">
+              <div class="card-top"><span>04 — TOOL</span><span class="card-mark">◈</span></div>
+              <div>
+                <h3>Varch</h3>
+                <p>Navegador focado em privacidade e liberdade digital.</p>
+              </div>
+              <div class="card-foot"><span id="varch-link">Em breve</span><span class="go" id="varch-go">⊘</span></div>
+            </a>
+          </div>
+        </div>
+        <div class="stage-foot">
+          <span>Bem-vindo.</span>
+          <span>03 — Ferramentas</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const buttons = [...document.querySelectorAll('.rail-btn')];
+      const views = {
+        inicio: document.getElementById('view-inicio'),
+        membros: document.getElementById('view-membros'),
+        ferramentas: document.getElementById('view-ferramentas')
+      };
+      let current = 'inicio';
+      let busy = false;
+
+      function replay(el) {
+        el.querySelectorAll('.card,.kicker,.lede,.actions,.stage-foot,h1,h2,.panel-head p').forEach((node) => {
+          node.style.animation = 'none';
+          void node.offsetWidth;
+          node.style.animation = '';
+        });
+      }
+
+      function go(name) {
+        if (!views[name] || name === current || busy) return;
+        busy = true;
+        const prev = views[current];
+        const next = views[name];
+
+        buttons.forEach((btn) => {
+          btn.setAttribute('aria-selected', btn.dataset.view === name ? 'true' : 'false');
+        });
+
+        prev.classList.remove('active');
+        prev.classList.add('leaving');
+
+        window.setTimeout(() => {
+          prev.classList.remove('leaving');
+          prev.hidden = true;
+          next.hidden = false;
+          next.classList.add('active');
+          replay(next);
+          current = name;
+          busy = false;
+        }, 220);
+      }
+
+      buttons.forEach((btn) => btn.addEventListener('click', () => go(btn.dataset.view)));
+      document.querySelectorAll('[data-go]').forEach((el) => {
+        el.addEventListener('click', (e) => {
+          if (el.tagName === 'A') e.preventDefault();
+          go(el.dataset.go);
+        });
+      });
+
+      const unlockAt = new Date(2026, 9, 25, 0, 0, 0, 0);
+      const varch = document.getElementById('tool-varch');
+      const varchLink = document.getElementById('varch-link');
+      const varchGo = document.getElementById('varch-go');
+
+      if (Date.now() >= unlockAt.getTime()) {
+        varchLink.textContent = '/varch';
+        varchLink.classList.remove('is-soon');
+        varchGo.textContent = '↗';
+        varch.classList.remove('is-locked');
+      } else {
+        varch.classList.add('is-locked');
+        varchLink.classList.add('is-soon');
+        varch.addEventListener('click', (e) => e.preventDefault());
+      }
+    })();
+  </script>
   <script src="/site-protection.js" defer></script>
 </body>
 </html>

@@ -116,21 +116,15 @@
     .view{
       grid-area:1/1;
       min-height:0;
-      display:none;
+      display:none !important;
       flex-direction:column;
-      opacity:0;
       pointer-events:none;
+      z-index:0;
     }
-    .view.active,
-    .view:target{
-      display:flex;
-      opacity:1;
+    .view.active{
+      display:flex !important;
       pointer-events:auto;
-    }
-    .stage:has(.view:target) .view.active:not(:target){
-      display:none;
-      opacity:0;
-      pointer-events:none;
+      z-index:2;
     }
 
     .kicker{
@@ -295,7 +289,7 @@
       .rail-btn{width:48px;height:48px;border-radius:14px}
       .rail-btn span{display:none}
       .stage{padding:22px 16px 28px;min-height:100svh}
-      .view.active,.view:target{min-height:calc(100svh - 40px)}
+      .view.active{min-height:calc(100svh - 40px)}
       .scroll-area{max-height:none;overflow:visible}
       .person{grid-template-columns:72px 1fr;padding:14px;gap:12px}
       .person-photo{width:72px;height:72px;border-radius:14px}

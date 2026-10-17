@@ -1,5 +1,5 @@
-(() => {
-  const aliases = {
+(function () {
+  var aliases = {
     inicio: 'inicio',
     home: 'inicio',
     manifesto: 'inicio',
@@ -9,66 +9,60 @@
     tools: 'ferramentas'
   };
 
-  const views = {
-    inicio: document.getElementById('inicio'),
-    membros: document.getElementById('membros'),
-    ferramentas: document.getElementById('ferramentas')
-  };
-
-  const tabs = [...document.querySelectorAll('[data-view]')];
-
   function resolve(name) {
-    const key = String(name || 'inicio').toLowerCase().replace(/^#/, '');
+    var key = String(name || 'inicio').toLowerCase().replace(/^#/, '');
     return aliases[key] || 'inicio';
   }
 
   function go(name) {
-    const target = resolve(name);
-    const next = views[target];
-    if (!next) return;
+    var target = resolve(name);
+    var views = document.querySelectorAll('.view');
+    var tabs = document.querySelectorAll('[data-view]');
+    var i;
 
-    Object.entries(views).forEach(([key, view]) => {
-      if (!view) return;
-      const on = key === target;
-      view.classList.toggle('active', on);
-      view.setAttribute('aria-hidden', on ? 'false' : 'true');
-    });
+    for (i = 0; i < views.length; i++) {
+      views[i].classList.toggle('active', views[i].id === target);
+    }
 
-    tabs.forEach((tab) => {
-      const on = tab.getAttribute('data-view') === target;
-      tab.classList.toggle('is-active', on);
-      tab.setAttribute('aria-selected', on ? 'true' : 'false');
-    });
+    for (i = 0; i < tabs.length; i++) {
+      var on = tabs[i].getAttribute('data-view') === target;
+      tabs[i].classList.toggle('is-active', on);
+      tabs[i].setAttribute('aria-selected', on ? 'true' : 'false');
+    }
 
-    const area = next.querySelector('.scroll-area');
-    if (area) area.scrollTop = 0;
+    var next = document.getElementById(target);
+    if (next) {
+      var area = next.querySelector('.scroll-area');
+      if (area) area.scrollTop = 0;
+    }
 
-    const hash = '#' + target;
-    if (location.hash !== hash) {
-      history.replaceState(null, '', hash);
+    if (location.hash !== '#' + target) {
+      history.replaceState(null, '', '#' + target);
     }
   }
 
-  document.addEventListener('click', (event) => {
-    const nav = event.target.closest('[data-view], [data-go]');
-    if (!nav) return;
-    const name = nav.getAttribute('data-view') || nav.getAttribute('data-go');
-    if (!name || !aliases[resolve(name)]) return;
+  function onNavClick(event) {
+    var el = event.target.closest('[data-view], [data-go]');
+    if (!el) return;
+    var name = el.getAttribute('data-view') || el.getAttribute('data-go');
+    if (!name) return;
     event.preventDefault();
+    event.stopPropagation();
     go(name);
-  });
+  }
 
-  window.addEventListener('hashchange', () => {
+  document.addEventListener('click', onNavClick, true);
+
+  window.addEventListener('hashchange', function () {
     go(location.hash || 'inicio');
   });
 
   go(location.hash || 'inicio');
 
-  // Varch: liberado a partir de 25/10/2026
-  const unlockAt = new Date(2026, 9, 25, 0, 0, 0, 0);
-  const varch = document.getElementById('tool-varch');
-  const varchLink = document.getElementById('varch-link');
-  const varchGo = document.getElementById('varch-go');
+  var unlockAt = new Date(2026, 9, 25, 0, 0, 0, 0);
+  var varch = document.getElementById('tool-varch');
+  var varchLink = document.getElementById('varch-link');
+  var varchGo = document.getElementById('varch-go');
   if (varch && varchLink && varchGo) {
     if (Date.now() >= unlockAt.getTime()) {
       varchLink.textContent = '/varch';
@@ -77,7 +71,9 @@
     } else {
       varch.classList.add('is-locked');
       varchLink.classList.add('is-soon');
-      varch.addEventListener('click', (e) => e.preventDefault());
+      varch.addEventListener('click', function (e) {
+        e.preventDefault();
+      });
     }
   }
 })();

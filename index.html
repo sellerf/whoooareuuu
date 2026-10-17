@@ -116,15 +116,53 @@
     .view{
       grid-area:1/1;
       min-height:0;
-      display:none !important;
+      display:flex;
       flex-direction:column;
+      opacity:0;
+      visibility:hidden;
       pointer-events:none;
       z-index:0;
+      transform:translateY(18px) scale(.985);
+      transition:
+        opacity .38s var(--ease),
+        transform .42s var(--ease),
+        visibility 0s linear .42s;
     }
     .view.active{
-      display:flex !important;
+      opacity:1;
+      visibility:visible;
       pointer-events:auto;
       z-index:2;
+      transform:none;
+      transition:
+        opacity .42s var(--ease),
+        transform .45s var(--ease),
+        visibility 0s linear 0s;
+    }
+    .view.active .kicker,
+    .view.active h1,
+    .view.active h2,
+    .view.active .lede,
+    .view.active .actions,
+    .view.active .panel-head,
+    .view.active .person,
+    .view.active .card,
+    .view.active .stage-foot{
+      animation:rise-in .5s var(--ease) both;
+    }
+    .view.active .person:nth-child(1),.view.active .card:nth-child(1){animation-delay:.05s}
+    .view.active .person:nth-child(2),.view.active .card:nth-child(2){animation-delay:.1s}
+    .view.active .person:nth-child(3),.view.active .card:nth-child(3){animation-delay:.15s}
+    .view.active .person:nth-child(4),.view.active .card:nth-child(4){animation-delay:.2s}
+    .view.active .person:nth-child(5),.view.active .card:nth-child(5){animation-delay:.25s}
+    .view.active .kicker{animation-delay:.02s}
+    .view.active h1,.view.active h2,.view.active .panel-head{animation-delay:.06s}
+    .view.active .lede,.view.active .actions{animation-delay:.12s}
+    .view.active .stage-foot{animation-delay:.18s}
+
+    @keyframes rise-in{
+      from{opacity:0;transform:translateY(14px)}
+      to{opacity:1;transform:none}
     }
 
     .kicker{
@@ -293,6 +331,19 @@
       .scroll-area{max-height:none;overflow:visible}
       .person{grid-template-columns:72px 1fr;padding:14px;gap:12px}
       .person-photo{width:72px;height:72px;border-radius:14px}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      .view,.view.active{transition:none;transform:none}
+      .view.active .kicker,
+      .view.active h1,
+      .view.active h2,
+      .view.active .lede,
+      .view.active .actions,
+      .view.active .panel-head,
+      .view.active .person,
+      .view.active .card,
+      .view.active .stage-foot{animation:none}
     }
   </style>
   <script src="/vercel-analytics.js" defer></script>

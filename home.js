@@ -9,16 +9,34 @@
     tools: 'ferramentas'
   };
 
+  var current = null;
+  var busy = false;
+
   function resolve(name) {
     var key = String(name || 'inicio').toLowerCase().replace(/^#/, '');
     return aliases[key] || 'inicio';
   }
 
+  function replayEnter(view) {
+    if (!view) return;
+    var nodes = view.querySelectorAll('.kicker,h1,h2,.lede,.actions,.panel-head,.person,.card,.stage-foot');
+    for (var i = 0; i < nodes.length; i++) {
+      nodes[i].style.animation = 'none';
+      void nodes[i].offsetWidth;
+      nodes[i].style.animation = '';
+    }
+  }
+
   function go(name) {
     var target = resolve(name);
+    if (target === current || busy) return;
+
     var views = document.querySelectorAll('.view');
     var tabs = document.querySelectorAll('[data-view]');
+    var next = document.getElementById(target);
     var i;
+
+    busy = true;
 
     for (i = 0; i < views.length; i++) {
       views[i].classList.toggle('active', views[i].id === target);
@@ -30,15 +48,21 @@
       tabs[i].setAttribute('aria-selected', on ? 'true' : 'false');
     }
 
-    var next = document.getElementById(target);
     if (next) {
       var area = next.querySelector('.scroll-area');
       if (area) area.scrollTop = 0;
+      replayEnter(next);
     }
+
+    current = target;
 
     if (location.hash !== '#' + target) {
       history.replaceState(null, '', '#' + target);
     }
+
+    window.setTimeout(function () {
+      busy = false;
+    }, 420);
   }
 
   function onNavClick(event) {
@@ -54,6 +78,7 @@
   document.addEventListener('click', onNavClick, true);
 
   window.addEventListener('hashchange', function () {
+    current = null;
     go(location.hash || 'inicio');
   });
 

@@ -19,8 +19,8 @@
       --text:#f5f6f3;
       --muted:#94979e;
       --line:rgba(255,255,255,.1);
-      --accent:#ff3b4f;
-      --accent-soft:rgba(255,59,79,.14);
+      --accent:#e7e7e7;
+      --accent-soft:rgba(255,255,255,.08);
       --mono:'DM Mono',monospace;
       --sans:'Manrope',sans-serif;
       --ease:cubic-bezier(.22,1,.36,1);
@@ -30,7 +30,7 @@
     html,body{height:100%}
     body{
       background:
-        radial-gradient(ellipse 70% 55% at 18% 20%,rgba(255,59,79,.09),transparent 60%),
+        radial-gradient(ellipse 70% 55% at 18% 20%,rgba(255,255,255,.025),transparent 60%),
         radial-gradient(ellipse 50% 45% at 88% 70%,rgba(255,255,255,.03),transparent 55%),
         var(--bg);
       color:var(--text);
@@ -91,8 +91,8 @@
     .rail-btn.is-active,
     .rail-btn[aria-selected="true"]{
       color:#fff;
-      background:linear-gradient(160deg,rgba(255,59,79,.95),#d9263a);
-      box-shadow:0 10px 28px rgba(255,59,79,.28);
+      background:rgba(255,255,255,.09);
+      box-shadow:none;
     }
 
     .rail-foot{margin-top:auto}
@@ -103,7 +103,7 @@
       background:rgba(255,255,255,.03);
       color:var(--muted);
     }
-    .discord-btn:hover{color:#fff;border-color:rgba(255,59,79,.45);background:var(--accent-soft)}
+    .discord-btn:hover{color:#fff;border-color:rgba(255,255,255,.24);background:var(--accent-soft)}
     .discord-btn svg{width:18px;height:18px}
 
     .stage{
@@ -202,16 +202,16 @@
     }
     .btn:hover{transform:translateY(-2px)}
     .btn-primary{
-      background:linear-gradient(135deg,#ff5a6b,var(--accent));
-      color:#150609;
-      box-shadow:0 12px 30px rgba(255,59,79,.22);
+      background:linear-gradient(135deg,#f0f0f0,#cfcfcf);
+      color:#111;
+      box-shadow:0 12px 30px rgba(255,255,255,.08);
     }
     .btn-ghost{
       background:rgba(255,255,255,.03);
       border-color:var(--line);
       color:var(--text);
     }
-    .btn-ghost:hover{border-color:rgba(255,59,79,.45);background:var(--accent-soft);color:#fff}
+    .btn-ghost:hover{border-color:rgba(255,255,255,.24);background:var(--accent-soft);color:#fff}
 
     .home-layout{
       flex:1;min-height:0;
@@ -221,10 +221,10 @@
     .scroll-area{
       min-height:0;flex:1;overflow-y:auto;overflow-x:hidden;
       padding-right:6px;-webkit-overflow-scrolling:touch;
-      scrollbar-width:thin;scrollbar-color:rgba(255,59,79,.55) transparent;
+      scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.35) transparent;
     }
     .scroll-area::-webkit-scrollbar{width:8px}
-    .scroll-area::-webkit-scrollbar-thumb{background:rgba(255,59,79,.5);border-radius:99px}
+    .scroll-area::-webkit-scrollbar-thumb{background:rgba(255,255,255,.3);border-radius:99px}
 
     .grid{
       display:grid;
@@ -253,7 +253,7 @@
     }
     .card:hover,.person:hover{
       transform:translateY(-4px);
-      border-color:rgba(255,59,79,.42);
+      border-color:rgba(255,255,255,.22);
       background:var(--panel-hover);
       box-shadow:0 18px 36px rgba(0,0,0,.28);
     }
@@ -264,7 +264,7 @@
     .card-mark{
       width:34px;height:34px;border-radius:12px;
       display:grid;place-items:center;
-      background:rgba(255,59,79,.12);color:var(--accent);font-size:14px;
+      background:rgba(255,255,255,.08);color:var(--accent);font-size:14px;
     }
     .card h3{font-size:26px;letter-spacing:-.06em;margin-top:28px}
     .card p{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.55}
@@ -283,7 +283,7 @@
     .person-photo{
       width:88px;height:88px;border-radius:18px;
       overflow:hidden;flex-shrink:0;
-      border:1px solid rgba(255,59,79,.35);
+      border:1px solid rgba(255,255,255,.18);
       background:#0c0d0f;
     }
     .person-photo img{
@@ -355,7 +355,7 @@
   <div class="app">
     <aside class="rail" aria-label="Navegação">
       <a class="brand" href="#inicio" data-go="inicio" title="Linarc Team">
-        <img src="/assets/tux.png" alt="Tux" width="42" height="42">
+        <img src="/assets/logo.png" alt="Logo da Linarc Team" width="42" height="42">
       </a>
 
       <nav class="rail-nav" aria-label="Seções">

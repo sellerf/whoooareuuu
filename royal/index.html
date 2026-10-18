@@ -13,19 +13,19 @@
     :root{
       color-scheme:dark;
       --bg:#08090b;--text:#f4f5f2;--muted:#8a8d94;--line:rgba(255,255,255,.11);
-      --accent:#ff3b4f;--mono:'DM Mono',monospace;--sans:'Manrope',sans-serif;
+      --accent:#e7e7e7;--mono:'DM Mono',monospace;--sans:'Manrope',sans-serif;
     }
     *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth;scroll-padding-top:90px;scrollbar-width:thin;scrollbar-color:var(--accent) #0a0a0c}
     ::-webkit-scrollbar{width:10px}
     ::-webkit-scrollbar-track{background:#0a0a0c}
-    ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#ff6878,var(--accent));border:3px solid #0a0a0c;border-radius:99px}
+    ::-webkit-scrollbar-thumb{background:linear-gradient(180deg, #f2f2f2,var(--accent));border:3px solid #0a0a0c;border-radius:99px}
     body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden}
     a{color:inherit;text-decoration:none}
-    ::selection{background:var(--accent);color:#150609}
+    ::selection{background:var(--accent);color:#111}
 
-    .scroll-progress{position:fixed;z-index:20;inset:0 auto auto 0;width:100%;height:3px;pointer-events:none;background:rgba(255,59,79,.12)}
-    .scroll-progress span{display:block;width:100%;height:100%;background:var(--accent);transform:scaleX(0);transform-origin:left center;box-shadow:0 0 14px rgba(255,59,79,.6)}
+    .scroll-progress{position:fixed;z-index:20;inset:0 auto auto 0;width:100%;height:3px;pointer-events:none;background:rgba(255,255,255,.12)}
+    .scroll-progress span{display:block;width:100%;height:100%;background:var(--accent);transform:scaleX(0);transform-origin:left center;box-shadow:none}
 
     .nav{
       position:fixed;inset:0 0 auto;height:70px;z-index:5;padding:0 6vw;
@@ -47,13 +47,13 @@
     .hero{
       position:relative;min-height:100svh;display:flex;align-items:center;
       overflow:hidden;padding:120px 0 100px;
-      background:radial-gradient(ellipse 55% 50% at 85% 45%,rgba(255,59,79,.1),transparent 70%);
+      background:none;
     }
     .hero::after{
       content:'';position:absolute;right:-8vw;top:10%;width:48vw;height:48vw;
-      border:1px solid rgba(255,59,79,.14);border-radius:50%;
-      box-shadow:0 0 0 60px rgba(255,59,79,.02),0 0 0 120px rgba(255,59,79,.012);
-      animation:turn 30s linear infinite;pointer-events:none;
+      border:1px solid rgba(255,255,255,.14);border-radius:50%;
+      box-shadow:none;
+      pointer-events:none;
     }
 
     .content{
@@ -66,7 +66,7 @@
     .portrait-wrap{
       width:148px;height:148px;border-radius:50%;
       border:1px solid var(--accent);overflow:hidden;flex-shrink:0;
-      box-shadow:0 0 0 8px rgba(255,59,79,.08);
+      box-shadow:none;
     }
     .portrait{
       width:100%;height:100%;object-fit:cover;object-position:center 18%;
@@ -80,10 +80,10 @@
     .actions{display:flex;gap:12px;flex-wrap:wrap}
     .button{
       display:inline-flex;gap:18px;align-items:center;padding:13px 16px;
-      border:1px solid var(--accent);background:var(--accent);color:#150609;
+      border:1px solid var(--accent);background:var(--accent);color:#111;
       font:10px var(--mono);letter-spacing:.08em;text-transform:uppercase;transition:.25s;
     }
-    .button:hover{transform:translateY(-3px);background:#ffb0b8}
+    .button:hover{transform:translateY(-3px);background:#f2f2f2}
     .button.ghost{background:transparent;border-color:var(--line);color:var(--text)}
     .button.ghost:hover{color:var(--accent);border-color:var(--accent)}
 
@@ -104,7 +104,7 @@
       min-height:200px;padding:24px;border:1px solid var(--line);
       background:linear-gradient(145deg,#121519,#0b0d0f);transition:.3s;
     }
-    .focus:hover{transform:translateY(-5px);border-color:rgba(255,59,79,.55)}
+    .focus:hover{transform:translateY(-5px);border-color:rgba(255,255,255,.22)}
     .focus-num{font:10px var(--mono);color:var(--accent);letter-spacing:.08em}
     .focus h3{font-size:22px;letter-spacing:-.05em;margin-top:48px}
     .focus p{margin-top:10px;color:var(--muted);font-size:12px;line-height:1.7}

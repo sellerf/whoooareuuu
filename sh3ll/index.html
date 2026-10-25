@@ -1,19 +1,237 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#08090b">
-  <meta name="description" content="Perfil de Sh3ll, hacker e membro da Linarc Team.">
-  <title>Sh3ll — Linarc Team</title>
+  <link rel="icon" href="/assets/fotocabecalho.png?v=3" type="image/png">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#08090b">
+  <title>SH3LL — Linarc Team</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    *{box-sizing:border-box}body{margin:0;background:#08090b;color:#f4f5f2;font:16px/1.7 Arial,sans-serif}a{color:inherit;text-decoration:none}.nav,footer{padding:22px 6vw;border-bottom:1px solid #292a2d;display:flex;justify-content:space-between;gap:20px}.nav a:last-child,footer a{color:#aaa}.hero{min-height:74vh;display:flex;align-items:center;padding:80px 10vw}.hero-inner{max-width:720px}.avatar{width:120px;height:120px;object-fit:cover;border-radius:50%;border:1px solid #777}.eyebrow{margin-top:26px;color:#aaa;text-transform:uppercase;letter-spacing:.16em;font-size:12px}h1{font-size:clamp(64px,15vw,150px);line-height:.9;letter-spacing:-.08em;margin:18px 0}.summary{max-width:600px;color:#b7b7b7}section{padding:70px 10vw;border-top:1px solid #292a2d}h2{font-size:clamp(34px,7vw,64px);line-height:1.05;letter-spacing:-.06em;margin:0}section p{max-width:650px;color:#aaa}footer{border-top:1px solid #292a2d;border-bottom:0;font-size:12px;color:#999;flex-wrap:wrap}
+    :root{
+      color-scheme:dark;
+      --bg:#08090b;--text:#f4f5f2;--muted:#8a8d94;--line:rgba(255,255,255,.11);
+      --accent:#e7e7e7;--mono:'DM Mono',monospace;--sans:'Manrope',sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;scroll-padding-top:90px;scrollbar-width:thin;scrollbar-color:var(--accent) #0a0a0c}
+    ::-webkit-scrollbar{width:10px}
+    ::-webkit-scrollbar-track{background:#0a0a0c}
+    ::-webkit-scrollbar-thumb{background:linear-gradient(180deg, #f2f2f2,var(--accent));border:3px solid #0a0a0c;border-radius:99px}
+    body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    ::selection{background:var(--accent);color:#111}
+
+    .scroll-progress{position:fixed;z-index:20;inset:0 auto auto 0;width:100%;height:3px;pointer-events:none;background:rgba(255,255,255,.12)}
+    .scroll-progress span{display:block;width:100%;height:100%;background:var(--accent);transform:scaleX(0);transform-origin:left center;box-shadow:none}
+
+    .nav{
+      position:fixed;inset:0 0 auto;height:70px;z-index:5;padding:0 6vw;
+      display:flex;justify-content:space-between;align-items:center;
+      background:rgba(8,9,11,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);
+    }
+    .brand{font-weight:800;letter-spacing:-.06em}
+    .brand span{color:var(--accent)}
+    .nav-links{display:flex;gap:25px;list-style:none}
+    .nav-links a,.lang button{font:10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#a0a2a5}
+    .nav-links a:hover{color:var(--accent)}
+    .nav-end{display:flex;align-items:center;gap:20px}
+    .lang{display:flex;gap:7px}
+    .lang button{border:0;background:none;cursor:pointer;padding:7px}
+    .lang button.active{color:var(--accent)}
+
+    .wrap{width:min(980px,88vw);margin:auto}
+
+    .hero{
+      position:relative;min-height:100svh;display:flex;align-items:center;
+      overflow:hidden;padding:120px 0 100px;
+      background:none;
+    }
+    .hero::after{
+      content:'';position:absolute;right:-8vw;top:10%;width:48vw;height:48vw;
+      border:1px solid rgba(255,255,255,.14);border-radius:50%;
+      box-shadow:none;
+      pointer-events:none;
+    }
+
+    .content{
+      position:relative;z-index:1;
+      display:flex;flex-direction:column;align-items:flex-start;
+      gap:28px;max-width:640px;
+      animation:arrive .9s cubic-bezier(.16,1,.3,1) both;
+    }
+    .identity{
+      display:flex;align-items:center;gap:28px;
+    }
+    .portrait-wrap{
+      width:148px;height:148px;border-radius:50%;
+      border:1px solid var(--accent);overflow:hidden;flex-shrink:0;
+      box-shadow:none;
+    }
+    .portrait{
+      width:100%;height:100%;object-fit:cover;object-position:center 20%;
+      display:block;filter:grayscale(.25);
+    }
+    .identity-text{min-width:0}
+    .eyebrow,.label{font:10px var(--mono);letter-spacing:.17em;text-transform:uppercase;color:var(--accent)}
+    h1{font-size:clamp(64px,10vw,120px);line-height:.85;letter-spacing:-.1em;font-weight:600;margin:10px 0 0}
+    h1 span{color:var(--accent)}
+    .summary{max-width:520px;color:#a1a3a7;font-size:15px;line-height:1.8}
+    .actions{display:flex;gap:12px;flex-wrap:wrap}
+    .button{
+      display:inline-flex;gap:18px;align-items:center;padding:13px 16px;
+      border:1px solid var(--accent);background:var(--accent);color:#111;
+      font:10px var(--mono);letter-spacing:.08em;text-transform:uppercase;transition:.25s;
+    }
+    .button:hover{transform:translateY(-3px);background:#f2f2f2}
+    .button.ghost{background:transparent;border-color:var(--line);color:var(--text)}
+    .button.ghost:hover{color:var(--accent);border-color:var(--accent)}
+
+    .scroll{
+      position:absolute;bottom:35px;left:6vw;z-index:2;
+      display:flex;align-items:center;gap:12px;
+      font:9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#777;
+    }
+    .scroll i{display:block;width:36px;height:1px;background:var(--accent);animation:pulse 1.7s infinite}
+
+    .section{padding:110px 0;border-top:1px solid var(--line)}
+    .section-head{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:end;margin-bottom:48px}
+    .section h2{font-size:clamp(36px,6vw,68px);letter-spacing:-.08em;line-height:.98;margin-top:14px}
+    .intro{max-width:360px;color:var(--muted);font-size:14px;line-height:1.85}
+
+    .focus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .focus{
+      min-height:200px;padding:24px;border:1px solid var(--line);
+      background:linear-gradient(145deg,#121519,#0b0d0f);transition:.3s;
+    }
+    .focus:hover{transform:translateY(-5px);border-color:rgba(255,255,255,.22)}
+    .focus-num{font:10px var(--mono);color:var(--accent);letter-spacing:.08em}
+    .focus h3{font-size:22px;letter-spacing:-.05em;margin-top:48px}
+    .focus p{margin-top:10px;color:var(--muted);font-size:12px;line-height:1.7}
+
+    .statement{padding:90px 0 110px;display:flex;justify-content:space-between;align-items:end;gap:30px}
+    .statement h2{font-size:clamp(40px,7vw,80px);line-height:.95;letter-spacing:-.08em}
+    .statement h2 span{color:var(--accent)}
+    .statement p{max-width:260px;color:var(--muted);font-size:13px;line-height:1.8}
+
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s}
+    .reveal.visible{opacity:1;transform:none}
+
+    footer{
+      border-top:1px solid var(--line);padding:23px 6vw;
+      display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+      color:#72757a;font:9px var(--mono);letter-spacing:.1em;text-transform:uppercase;
+    }
+
+    @keyframes turn{to{transform:rotate(360deg)}}
+    @keyframes pulse{0%,100%{transform:scaleX(.45);transform-origin:left;opacity:.5}50%{transform:scaleX(1);opacity:1}}
+    @keyframes arrive{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+    @media(max-width:720px){
+      .nav-links{gap:12px}
+      .nav-links li:nth-child(2){display:none}
+      .identity{flex-direction:column;align-items:flex-start;gap:20px}
+      .portrait-wrap{width:120px;height:120px}
+      .section-head,.focus-grid{grid-template-columns:1fr}
+      .focus{min-height:150px}
+      .focus h3{margin-top:28px}
+      .statement{display:block}
+      .statement p{margin-top:22px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+      .reveal{opacity:1;transform:none}
+      .content,.hero::after{animation:none}
+    }
   </style>
+  <script src="/vercel-analytics.js" defer></script>
 </head>
 <body>
-  <nav class="nav"><a href="/">LINARC.</a><a href="/#membros">← Voltar para membros</a></nav>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <nav class="nav">
+    <a class="brand" href="/">LINARC<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="/#inicio">Início</a></li>
+      <li><a href="/#membros">Membros</a></li>
+      <li><a href="/#ferramentas">Tools</a></li>
+    </ul>
+    <div class="nav-end">
+      <div class="lang">
+        <button class="active" data-lang="pt" type="button">PT</button>
+        <button data-lang="en" type="button">EN</button>
+      </div>
+      <a class="eyebrow" href="/#membros">← LINARC TEAM</a>
+    </div>
+  </nav>
+
   <main>
-    <header class="hero"><div class="hero-inner"><img class="avatar" src="/assets/sh3ll.png" alt="Sh3ll"><p class="eyebrow">Hacker — Membro Linarc</p><h1>Sh3ll<span>.</span></h1><p class="summary">Hacker e integrante da Linarc Team, inspirado em Leon, de Mr. Robot.</p></div></header>
-    <section><p class="eyebrow">01 / Perfil</p><h2>Curiosidade e cultura hacker.</h2><p>Sh3ll faz parte da Linarc Team e se interessa por hacking ético, tecnologia e colaboração com a comunidade.</p></section>
+    <section class="hero">
+      <div class="wrap content">
+        <div class="identity">
+          <div class="portrait-wrap">
+            <img class="portrait" src="/assets/sh3ll.png" alt="Foto de perfil de SH3LL" width="148" height="148">
+          </div>
+          <div class="identity-text">
+            <p class="eyebrow" data-pt="Hacker — Linarc Team" data-en="Hacker — Linarc Team">Hacker — Linarc Team</p>
+            <h1>SH3LL<span>.</span></h1>
+          </div>
+        </div>
+        <p class="summary" data-pt="Hacker e integrante da Linarc Team, inspirado em Leon, de Mr. Robot. Tem interesse por tecnologia, segurança digital e colaboração." data-en="A hacker and member of Linarc Team, inspired by Leon from Mr. Robot. Interested in technology, digital security and collaboration.">Hacker e integrante da Linarc Team, inspirado em Leon, de Mr. Robot. Tem interesse por tecnologia, segurança digital e colaboração.</p>
+        <div class="actions">
+          <a class="button" href="#sobre" data-pt="Conheça minha trajetória" data-en="Get to know me">Conheça minha trajetória <span>↓</span></a>
+          <a class="button ghost" href="https://discord.gg/uQujud3BDF" target="_blank" rel="noopener noreferrer">Discord <span>↗</span></a>
+        </div>
+      </div>
+      <a class="scroll" href="#sobre"><i></i><span data-pt="Role para conhecer" data-en="Scroll to explore">Role para conhecer</span></a>
+    </section>
+
+    <section class="section" id="sobre">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <p class="label" data-pt="01 / Biografia" data-en="01 / Bio">01 / Biografia</p>
+            <h2 data-pt="Curiosidade<br>sem limites." data-en="Curiosity<br>without limits.">Curiosidade<br>sem limites.</h2>
+          </div>
+          <p class="intro" data-pt="SH3LL faz parte da Linarc Team e se interessa por cultura hacker, tecnologia e aprendizado coletivo. Acredita que conhecimento compartilhado ajuda a construir uma comunidade mais forte." data-en="SH3LL is part of Linarc Team and is interested in hacker culture, technology and shared learning. Knowledge sharing helps build a stronger community.">SH3LL faz parte da Linarc Team e se interessa por cultura hacker, tecnologia e aprendizado coletivo. Acredita que conhecimento compartilhado ajuda a construir uma comunidade mais forte.</p>
+        </div>
+        <div class="focus-grid">
+          <article class="focus reveal">
+            <span class="focus-num">01 — FEITO</span>
+            <h3 data-pt="Cultura hacker" data-en="Hacker culture">Cultura hacker</h3>
+            <p data-pt="Curiosidade técnica e exploração responsável." data-en="Technical curiosity and responsible exploration.">Curiosidade técnica e exploração responsável.</p>
+          </article>
+          <article class="focus reveal">
+            <span class="focus-num">02 — FEITO</span>
+            <h3 data-pt="Segurança digital" data-en="Digital security">Segurança digital</h3>
+            <p data-pt="Aprendizado contínuo sobre segurança e privacidade." data-en="Continuous learning about security and privacy.">Aprendizado contínuo sobre segurança e privacidade.</p>
+          </article>
+          <article class="focus reveal">
+            <span class="focus-num">03 — FEITO</span>
+            <h3 data-pt="Comunidade" data-en="Community">Comunidade</h3>
+            <p data-pt="Compartilhando ideias e aprendendo em equipe." data-en="Sharing ideas and learning as a team.">Compartilhando ideias e aprendendo em equipe.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="statement wrap reveal">
+      <div>
+        <p class="label" data-pt="02 / Princípio" data-en="02 / Principle">02 / Princípio</p>
+        <h2 data-pt="Explorar.<br>Compartilhar.<br><span>Aprender.</span>" data-en="Explore.<br>Share.<br><span>Learn.</span>">Explorar.<br>Compartilhar.<br><span>Aprender.</span></h2>
+      </div>
+      <p data-pt="Boas ideias crescem quando são compartilhadas. Vamos aprender e criar juntos." data-en="Good ideas grow when they are shared. Let us learn and build together.">Boas ideias crescem quando são compartilhadas. Vamos aprender e criar juntos.</p>
+    </section>
   </main>
-  <footer><span>© 2026 Sh3ll</span><span>LINARC TEAM</span><a href="/#membros">Voltar aos membros ↑</a></footer>
+
+  <footer>
+    <span>© 2026 SH3LL</span>
+    <span>LINARC TEAM</span>
+    <a href="/#membros">Voltar aos membros ↑</a>
+  </footer>
+
+  <script src="/profile.js" defer></script>
+  <script src="/site-protection.js" defer></script>
 </body>
 </html>
